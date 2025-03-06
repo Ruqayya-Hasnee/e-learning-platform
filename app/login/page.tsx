@@ -16,9 +16,9 @@ function Login() {
             placeholder="enter password"
             className="border m-4 p-1 rounded"
           />
-          <button className="bg-purple-600 text-white p-2 m-8 rounded-3xl">
-            Login
-          </button>
+            <button className="bg-purple-600 text-white text-center px-4 py-2 ml-18 rounded-3xl">
+              Login
+            </button>
         </div>
       </div>
     </div>

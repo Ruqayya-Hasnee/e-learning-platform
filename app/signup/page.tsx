@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 function SignUp() {
   return (
@@ -21,9 +22,11 @@ function SignUp() {
             placeholder="enter password"
             className="border m-4 p-1 rounded"
           />
+          <Link href="/profile">
           <button className="bg-purple-600 text-white p-2 m-8 rounded-3xl">
             Create Account
           </button>
+          </Link>
         </div>
       </div>
     </div>

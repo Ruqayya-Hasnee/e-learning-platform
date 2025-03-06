@@ -12,7 +12,7 @@ function Navbar() {
           <Link href="/courses">Courses</Link>
           <a href="#">Contact</a>
         </div>
-        <div>
+        <div className="flex gap-4">
           <Link href="/signup"><button className="border text-white bg-blue-900 rounded-3xl w-20">
             Sign Up
           </button></Link>
