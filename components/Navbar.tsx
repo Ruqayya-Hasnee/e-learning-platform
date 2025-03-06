@@ -16,6 +16,9 @@ function Navbar() {
           <Link href="/signup"><button className="border text-white bg-blue-900 rounded-3xl w-20">
             Sign Up
           </button></Link>
+          <Link href="/login"><button className="border text-white bg-blue-900 rounded-3xl w-20">
+            Login
+          </button></Link>
         </div>
       </div>
     </>
