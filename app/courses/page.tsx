@@ -10,9 +10,9 @@ function Courses() {
       totalReviews: 150,
       thumbnail: "https://picsum.photos/400/300?random=1",
       image: "https://picsum.photos/400/300?random=11",
-      name: "Introduction to Physics",
+      name: "Introduction to Software Engineering",
       price: 99,
-      description: "Learn the basics of physics, covering motion, forces, and energy.",
+      description: "Learn the basics of software engineering, including software development lifecycle, design patterns, and best practices.",
     },
     {
       id: 2,
@@ -20,9 +20,9 @@ function Courses() {
       totalReviews: 200,
       thumbnail: "https://picsum.photos/400/300?random=2",
       image: "https://picsum.photos/400/300?random=12",
-      name: "Web Development Bootcamp",
+      name: "Full Stack Web Development",
       price: 149,
-      description: "Master HTML, CSS, and JavaScript with hands-on projects.",
+      description: "Master both frontend and backend development with hands-on projects using HTML, CSS, JavaScript, Node.js, and more.",
     },
     {
       id: 3,
@@ -30,9 +30,9 @@ function Courses() {
       totalReviews: 320,
       thumbnail: "https://picsum.photos/400/300?random=3",
       image: "https://picsum.photos/400/300?random=13",
-      name: "Mastering React.js",
+      name: "Mastering Java Programming",
       price: 199,
-      description: "A complete guide to building modern web applications using React.js.",
+      description: "A complete guide to building scalable and maintainable software using Java, covering OOP, multithreading, and more.",
     },
     {
       id: 4,
@@ -40,9 +40,9 @@ function Courses() {
       totalReviews: 180,
       thumbnail: "https://picsum.photos/400/300?random=4",
       image: "https://picsum.photos/400/300?random=14",
-      name: "Data Structures & Algorithms",
+      name: "Data Structures & Algorithms for Software Engineers",
       price: 129,
-      description: "Learn how to solve coding problems efficiently with DSA concepts.",
+      description: "Learn how to solve complex coding problems and optimize your software with efficient algorithms and data structures.",
     },
     {
       id: 5,
@@ -50,9 +50,9 @@ function Courses() {
       totalReviews: 220,
       thumbnail: "https://picsum.photos/400/300?random=5",
       image: "https://picsum.photos/400/300?random=15",
-      name: "Artificial Intelligence Basics",
+      name: "Software Design & Architecture",
       price: 179,
-      description: "Understand the fundamentals of AI, machine learning, and neural networks.",
+      description: "Understand key principles of software design and architecture, including design patterns, UML diagrams, and system scalability.",
     },
     {
       id: 6,
@@ -60,13 +60,11 @@ function Courses() {
       totalReviews: 275,
       thumbnail: "https://picsum.photos/400/300?random=6",
       image: "https://picsum.photos/400/300?random=16",
-      name: "Cybersecurity Fundamentals",
+      name: "DevOps Fundamentals",
       price: 159,
-      description: "Learn how to secure networks and protect data from cyber threats.",
+      description: "Learn how to integrate development and operations to streamline the software release process and improve collaboration.",
     },
   ];
-  
-  console.log(courses);
   
 
   return (
