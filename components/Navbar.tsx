@@ -8,7 +8,7 @@ function Navbar() {
         <div className="font-bold">E-Learning</div>
         <div className="flex gap-12 font-bold">
           <a href="#">Home</a>
-          <a href="#">About</a>
+         <Link href="/adminprofile"> About</Link>
           <Link href="/courses">Courses</Link>
           <a href="#">Contact</a>
         </div>
