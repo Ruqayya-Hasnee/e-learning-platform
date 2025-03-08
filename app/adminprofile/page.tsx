@@ -1,5 +1,6 @@
 import React from "react";
 import CourseCard from "@/components/CourseCard";
+import Link from "next/link";
 
 function AdminProfile() {
   const courses = [
@@ -72,7 +73,17 @@ function AdminProfile() {
   ];
   return (
     <div className="min-h-screen bg-gray-100">
-      <h1 className="text-2xl p-10">Admin Profile</h1>
+      <div className="p-10 flex justify-between gap-10">
+        <Link href="#" className="text-2xl">
+          Admin Profile
+        </Link>
+        <Link href="/instructorprofile" className="text-xl">
+          <button className="bg-purple-500 text-white rounded-3xl px-2 py-1">
+            Instructor Profile
+          </button>
+        </Link>
+      </div>
+
       <div className="flex justify-center">
         <div className="flex w-380 shadow-sm p-4 mx-8 rounded bg-white">
           <img
@@ -127,7 +138,7 @@ function AdminProfile() {
         </div>
       </div>
       <h1 className="text-2xl p-10">Courses</h1>
-      <div className="grid grid-cols-3 px-20 gap-4">
+      <div className="grid grid-cols-3 px-20 pb-8 gap-4">
         {courses.map((course) => (
           <CourseCard
             key={course.id}
