@@ -1,71 +1,114 @@
-import React, { useEffect } from "react";
-// import ReactPortal from "react";
+import React, { useEffect, useState } from "react";
 
 interface ModalProps {
-  // children: React.ReactChildren | React.ReactChild;
   isOpen: boolean;
   handleClose: () => void;
 }
 
-const Modal = ({
-  // children,
-  isOpen,
-  handleClose,
-}: ModalProps) => {
-  // close modal on esc key press
+const Modal: React.FC<ModalProps> = ({ isOpen, handleClose }) => {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+
+  // Close modal on Escape key press
   useEffect(() => {
-    const closeOnEscapeKey = (e: KeyboardEvent) =>
-      e.key === "Escape" ? handleClose() : null;
+    const closeOnEscapeKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        handleClose();
+      }
+    };
     document.body.addEventListener("keydown", closeOnEscapeKey);
     return () => {
       document.body.removeEventListener("keydown", closeOnEscapeKey);
     };
-  }, [handleClose]);
+  }, [handleClose, isOpen]);
 
-  // disable scroll on modal load
+  // Disable scroll when modal is open
   useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return (): void => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
       document.body.style.overflow = "unset";
-    };
+    }
   }, [isOpen]);
+
+  // Handle file selection
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    setSelectedFile(file);
+  };
+
+  // Trigger file input on button click
+  const handleSelectFile = () => {
+    document.getElementById("fileInput")?.click();
+  };
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white w-3/5 h-auto p-6 rounded-lg shadow-lg relative">
+        {/* Close Button */}
         <button
-          className="absolute top-4 right-4 text-gray-600"
+          className="absolute top-4 right-4 text-gray-600 text-2xl"
           onClick={handleClose}
         >
-          x
+          ✖
         </button>
-        <div className="flex justify-between">
-          <h1>Upload</h1>
-        </div>
-        <hr className="text-gray-300 mt-6" />
+
+        {/* Modal Title */}
+        <h1 className="text-xl font-semibold mb-2">Upload Video</h1>
+        <hr className="text-gray-300 mb-4" />
+
+        {/* Upload Section */}
         <div className="flex flex-col items-center text-center text-gray-600">
-          <img src="/upload.png" alt="upload" className="w-40 h-36 mt-18" />
-          <h1 className="font-bold">Drag and drop video files to upload</h1>
-          <p>Your videos will be private until you publish them</p>
+          <img src="/upload.png" alt="upload" className="w-40 h-36 mt-4" />
+          <h1 className="font-bold text-lg">Drag and drop video files to upload</h1>
+          <p className="text-sm">Your videos will be private until you publish them</p>
+
+          {/* Course Title Input */}
           <input
             type="text"
             placeholder="Enter course title"
-            className="border rounded text-center m-6"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="border rounded-md p-2 w-full mt-4"
           />
+
+          {/* Description Textarea */}
           <textarea
-            placeholder="Description"
-            className="border rounded text-center"
+            placeholder="Enter course description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="border rounded-md p-2 w-full mt-4 h-24"
           />
+
+          {/* File Input (Hidden) */}
+          <input
+            type="file"
+            id="fileInput"
+            className="hidden"
+            accept="video/*"
+            onChange={handleFileChange}
+          />
+
+          {/* Display selected file name */}
+          {selectedFile && (
+            <p className="text-sm text-green-600 mt-2">
+              Selected File: {selectedFile.name}
+            </p>
+          )}
+
+          {/* Select File Button */}
           <button
-            type="submit"
-            className="bg-black text-white rounded-3xl w-26 h-8 mt-10"
-           
+            type="button"
+            className="bg-black text-white rounded-3xl px-6 py-2 mt-4"
+            onClick={handleSelectFile}
           >
             Select files
           </button>
-          <p className="py-10">
+
+          <p className="py-6 text-sm">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam
             molestiae, eos inventore commodi voluptates unde magnam expedita
             vitae exercitationem tempore provident velit laudantium impedit
