@@ -43,45 +43,64 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose }) => {
     document.getElementById("fileInput")?.click();
   };
 
+  // Handle form submission
+  const handleSubmit = () => {
+    if (!title || !description || !selectedFile) {
+      alert("Please fill out all fields and select a file.");
+      return;
+    }
+    console.log("Title:", title);
+    console.log("Description:", description);
+    console.log("File:", selectedFile.name);
+
+    // Clear inputs after submission
+    setTitle("");
+    setDescription("");
+    setSelectedFile(null);
+    handleClose(); // Close modal after submission
+  };
+
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white w-3/5 h-auto p-6 rounded-lg shadow-lg relative">
+      <div className="bg-white w-2/5 max-w-lg p-6 rounded-xl shadow-2xl relative">
         {/* Close Button */}
         <button
-          className="absolute top-4 right-4 text-gray-600 text-2xl"
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl"
           onClick={handleClose}
         >
           ✖
         </button>
 
         {/* Modal Title */}
-        <h1 className="text-xl font-semibold mb-2">Upload Video</h1>
-        <hr className="text-gray-300 mb-4" />
+        <h1 className="text-2xl font-semibold mb-4 text-gray-800 text-center">
+          Upload Video
+        </h1>
+        <hr className="border-gray-300 mb-4" />
+
+        {/* Title Input */}
+        <input
+          type="text"
+          placeholder="Enter course title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="border border-gray-300 rounded-lg p-3 w-full mb-4 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+        />
+
+        {/* Description Textarea */}
+        <textarea
+          placeholder="Enter course description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="border border-gray-300 rounded-lg p-3 w-full h-24 mb-4 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+        />
 
         {/* Upload Section */}
         <div className="flex flex-col items-center text-center text-gray-600">
-          <img src="/upload.png" alt="upload" className="w-40 h-36 mt-4" />
-          <h1 className="font-bold text-lg">Drag and drop video files to upload</h1>
-          <p className="text-sm">Your videos will be private until you publish them</p>
-
-          {/* Course Title Input */}
-          <input
-            type="text"
-            placeholder="Enter course title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="border rounded-md p-2 w-full mt-4"
-          />
-
-          {/* Description Textarea */}
-          <textarea
-            placeholder="Enter course description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="border rounded-md p-2 w-full mt-4 h-24"
-          />
+          <img src="/upload.png" alt="upload" className="w-24 h-24 mt-2" />
+          <h1 className="font-bold text-lg mt-2">Drag & Drop to Upload</h1>
+          <p className="text-sm mb-3">Your videos remain private until published</p>
 
           {/* File Input (Hidden) */}
           <input
@@ -102,17 +121,23 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose }) => {
           {/* Select File Button */}
           <button
             type="button"
-            className="bg-black text-white rounded-3xl px-6 py-2 mt-4"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg px-6 py-2 mt-3 transition-all"
             onClick={handleSelectFile}
           >
-            Select files
+            Select File
           </button>
 
-          <p className="py-6 text-sm">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam
-            molestiae, eos inventore commodi voluptates unde magnam expedita
-            vitae exercitationem tempore provident velit laudantium impedit
-            totam voluptas quia, rem reprehenderit dolorem.
+          {/* Submit Button */}
+          <button
+            type="button"
+            className="bg-black hover:bg-gray-900 text-white font-semibold rounded-lg px-6 py-2 mt-4 transition-all w-full"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+
+          <p className="text-xs text-gray-400 mt-4">
+            * Please upload only video files. Max file size: 500MB
           </p>
         </div>
       </div>
