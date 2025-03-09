@@ -1,10 +1,14 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { VscMortarBoard } from "react-icons/vsc";
 import { MdOutlineLibraryBooks } from "react-icons/md";
 import { GoTrophy } from "react-icons/go";
 import CourseCard from "@/components/CourseCard";
+import Modal from "@/components/Modal";
 
 function InstructorProfile() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const courses = [
     {
       id: 1,
@@ -50,8 +54,8 @@ function InstructorProfile() {
       description:
         "Learn how to solve complex coding problems and optimize your software with efficient algorithms and data structures.",
     },
-   
   ];
+
   return (
     <div className="px-30">
       <h1 className="text-2xl py-8">Instructor Profile</h1>
@@ -71,7 +75,6 @@ function InstructorProfile() {
         </div>
       </div>
       <div className="flex justify-between text-gray-600 px-40">
-        {/* Left Side - Instructor Info */}
         <div>
           <h1 className="font-bold text-lg">Liam Johnson</h1>
           <p>Instructor</p>
@@ -85,7 +88,6 @@ function InstructorProfile() {
           </div>
         </div>
 
-        {/* Right Side - Introduction */}
         <div className="w-2/3 space-y-4">
           <h1 className="font-bold text-lg">Introduction</h1>
           <p>
@@ -130,13 +132,14 @@ function InstructorProfile() {
       </div>
       <div className="flex justify-between py-10">
         <h1 className="text-2xl ">Uploaded Courses</h1>
-        <button className="bg-blue-600 text-white rounded-3xl p-2">
+
+        <button className="bg-blue-600 text-white rounded-3xl p-2" onClick={() => setIsModalOpen(true)}>
           Add New Course
         </button>
       </div>
       <div className="grid grid-cols-3 px-20 pb-8 gap-4">
         {courses.map((course) => (
-          <CourseCard
+          <CourseCard    
             key={course.id}
             rating={course.rating}
             totalReviews={course.totalReviews}
@@ -148,6 +151,7 @@ function InstructorProfile() {
           />
         ))}
       </div>
+     {isModalOpen && <Modal isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)} />}
     </div>
   );
 }

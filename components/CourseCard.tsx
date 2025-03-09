@@ -22,7 +22,7 @@ export default function CourseCard({
   return (
     <div className="card">
       <img src={thumbnail} alt="landscape image" />
-      <p>⭐{rating}{totalReviews}</p>
+      <p>⭐{rating}({totalReviews})</p>
       <p className="font-bold">{description}</p>
       <div className="flex justify-between font-bold">
         <div className="flex items-center p-2 gap-2">
