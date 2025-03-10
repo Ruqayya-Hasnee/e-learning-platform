@@ -3,7 +3,7 @@ import Link from "next/link";
 
 function Login() {
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100">
+    <div className="min-h-[calc(100vh-3rem)] flex justify-center items-center bg-gray-100">
       <div className="p-4 w-96 bg-white rounded-xl items-center shadow-lg">
         <h1 className="text-center font-bold text-xl">Login</h1>
         <div className="flex flex-col">
