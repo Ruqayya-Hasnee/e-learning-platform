@@ -3,8 +3,9 @@ import Link from "next/link";
 
 function Login() {
   return (
-    <div className="w-96 h-auto my-40 p-12 mx-auto bg-purple-600">
-      <div className="bg-white rounded-xl p-6 items-center">
+    <div className="w-full min-h-screen flex justify-center items-center bg-gray-100">
+   
+      <div className="flex flex-col justify-center bg-white rounded-xl w-96 h-120 p-6 items-center shadow-lg">
         <h1 className="text-center font-bold">Login</h1>
         <div className="flex flex-col p-4">
           <input
@@ -30,7 +31,9 @@ function Login() {
           </p>
         </div>
       </div>
-    </div>
+    </div> 
+  
+   
   );
 }
 
