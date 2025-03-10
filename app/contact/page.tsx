@@ -33,7 +33,7 @@ function Contact() {
             ></textarea>
           </div>
 
-          <button className="bg-blue-800 text-white font-semibold mx-32 h-10 w-36 rounded-md">
+          <button className="primary">
             Submit
           </button>
         </div>

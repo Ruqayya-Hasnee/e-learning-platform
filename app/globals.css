@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-button {
-  cursor: pointer;
-}
-
 @layer components {
   .card {
     @apply bg-white rounded w-full h-auto object-cover;
@@ -13,6 +9,17 @@ button {
   }
   input,
   textarea {
-    @apply border m-2 p-2 rounded;
+    @apply border p-2 rounded text-sm;
+  }
+
+  button {
+    cursor: pointer;
+    @apply px-3 py-1 rounded-md text-white; 
+    &.primary {
+      @apply text-sm bg-purple-600;
+    }
+    &.secondary {
+      @apply text-sm bg-blue-900 ;
+    }
   }
 }

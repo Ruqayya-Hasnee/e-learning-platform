@@ -133,7 +133,7 @@ function InstructorProfile() {
       <div className="flex justify-between py-10">
         <h1 className="text-2xl ">Uploaded Courses</h1>
 
-        <button className="bg-blue-600 text-white rounded-3xl p-2" onClick={() => setIsModalOpen(true)}>
+        <button className="primary" onClick={() => setIsModalOpen(true)}>
           Add New Course
         </button>
       </div>

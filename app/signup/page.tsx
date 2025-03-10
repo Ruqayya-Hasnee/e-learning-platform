@@ -33,10 +33,10 @@ function SignUp() {
         <h1 className="text-center font-bold text-xl mb-4">Sign Up</h1>
 
         {/* Role Selection */}
-        <div className="flex justify-between mb-4">
+        <div className="flex justify-between mb-4 gap-2">
           <button
             onClick={() => setRole("student")}
-            className={`px-4 py-2 rounded-lg w-1/2 ${
+            className={`primary w-1/2 ${
               role === "student" ? "bg-purple-600 text-white" : "bg-gray-200"
             }`}
           >
@@ -44,7 +44,7 @@ function SignUp() {
           </button>
           <button
             onClick={() => setRole("instructor")}
-            className={`px-4 py-2 rounded-lg w-1/2 ${
+            className={`secondary w-1/2 ${
               role === "instructor" ? "bg-purple-600 text-white" : "bg-gray-200"
             }`}
           >
@@ -52,7 +52,7 @@ function SignUp() {
           </button>
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-2">
           <input type="text" placeholder="Enter your name" />
           <input type="email" placeholder="Enter your email" />
           <input type="password" placeholder="Enter password" />
@@ -86,17 +86,17 @@ function SignUp() {
                 </ul>
 
                 {/* Add Achievement Input below the existing achievements */}
-                <div className="flex mt-4">
+                <div className="flex mt-4 gap-2">
                   <input
                     type="text"
                     placeholder="Add an achievement"
                     value={achievementInput}
                     onChange={(e) => setAchievementInput(e.target.value)}
-                    className="border m-2 p-2 rounded flex-grow"
+                    className="w-6/7"
                   />
                   <button
                     onClick={addAchievement}
-                    className="bg-purple-600 text-white px-4 py-2 rounded m-2"
+                    className="primary w-1/7"
                   >
                     +
                   </button>
@@ -108,7 +108,7 @@ function SignUp() {
           <Link
             href={role === "student" ? "/studentprofile" : "/instructorprofile"}
           >
-            <button className="bg-purple-600 text-white p-2 mt-4 rounded-3xl w-full">
+            <button className="primary w-full">
               Create {role === "student" ? "Student" : "Instructor"} Account
             </button>
           </Link>

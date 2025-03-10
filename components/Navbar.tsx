@@ -16,12 +16,12 @@ function Navbar() {
       </div>
       <div className="flex gap-4">
         <Link href="/signup">
-          <button className="border text-white bg-blue-900 rounded-3xl w-20">
+          <button className="secondary">
             Sign Up
           </button>
         </Link>
         <Link href="/login">
-          <button className="border text-white bg-blue-900 rounded-3xl w-20">
+          <button className="secondary">
             Login
           </button>
         </Link>

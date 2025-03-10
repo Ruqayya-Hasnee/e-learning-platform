@@ -101,7 +101,7 @@ function Courses() {
           ))}
         </div>
         <div className="flex justify-center">
-          <button className="bg-teal-600 text-white py-1 px-7 rounded-3xl">
+          <button className="primary">
             See All Courses
           </button>
         </div>

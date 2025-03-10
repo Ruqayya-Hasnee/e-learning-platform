@@ -10,9 +10,7 @@ function Dashboard() {
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
           minim veniam, quis nostrud.
         </p>
-        <button className="mt-6 bg-blue-900 text-white py-2 px-7 rounded-3xl">
-          Learn More
-        </button>
+        <button className="secondary my-6">Learn More</button>
       </div>
     </div>
   );
