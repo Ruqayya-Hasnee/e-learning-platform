@@ -6,7 +6,7 @@ button {
 
 @layer components{
   .card{
-    @apply bg-white rounded w-full h-auto object-cover p-4
+    @apply bg-white rounded w-full h-auto object-cover
   }
   .card img{
     @apply w-full h-48 object-cover rounded-t-lg 

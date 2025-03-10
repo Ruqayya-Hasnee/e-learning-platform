@@ -5,7 +5,7 @@ import Link from "next/link";
 
 function Navbar() {
   return (
-    <div className="text-blue-900 flex justify-evenly items-center h-12">
+    <div className="text-blue-900 flex justify-between items-center h-12 mx-35">
       <div className="font-bold">
         <Link href="/">E-Learning</Link>
       </div>
