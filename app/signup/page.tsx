@@ -52,35 +52,16 @@ function SignUp() {
           </button>
         </div>
 
-        <div className="flex flex-col p-4">
-          <input
-            type="text"
-            placeholder="Enter your name"
-            className="border m-2 p-2 rounded"
-          />
-          <input
-            type="email"
-            placeholder="Enter your email"
-            className="border m-2 p-2 rounded"
-          />
-          <input
-            type="password"
-            placeholder="Enter password"
-            className="border m-2 p-2 rounded"
-          />
+        <div className="flex flex-col">
+          <input type="text" placeholder="Enter your name" />
+          <input type="email" placeholder="Enter your email" />
+          <input type="password" placeholder="Enter password" />
 
           {/* Additional Fields for Instructor */}
           {role === "instructor" && (
             <>
-              <textarea
-                placeholder="Introduction"
-                className="border m-2 p-2 rounded"
-              />
-              <input
-                type="text"
-                placeholder="Education"
-                className="border m-2 p-2 rounded"
-              />
+              <textarea placeholder="Introduction" />
+              <input type="text" placeholder="Education" />
 
               {/* Achievements Section */}
               <div className="mt-4">
@@ -133,7 +114,7 @@ function SignUp() {
           </Link>
 
           {/* Link to Login */}
-          <div className="mt-4 text-center">
+          <div className="text-center mt-0.5">
             <p>
               Already have an account?{" "}
               <Link href="/login" className="text-purple-600">

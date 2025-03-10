@@ -4,11 +4,15 @@ button {
   cursor: pointer;
 }
 
-@layer components{
-  .card{
-    @apply bg-white rounded w-full h-auto object-cover
+@layer components {
+  .card {
+    @apply bg-white rounded w-full h-auto object-cover;
   }
-  .card img{
-    @apply w-full h-48 object-cover rounded-t-lg 
+  .card img {
+    @apply w-full h-48 object-cover rounded-t-lg;
+  }
+  input,
+  textarea {
+    @apply border m-2 p-2 rounded;
   }
 }
