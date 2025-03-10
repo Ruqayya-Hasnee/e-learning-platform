@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 function Login() {
   return (
@@ -8,17 +9,25 @@ function Login() {
         <div className="flex flex-col p-4">
           <input
             type="email"
-            placeholder="enter your email"
+            placeholder="Enter your email"
             className="border m-4 p-1 rounded"
           />
           <input
             type="password"
-            placeholder="enter password"
+            placeholder="Enter password"
             className="border m-4 p-1 rounded"
           />
           <button className="flex justify-center p-1 m-4 bg-purple-600 text-white text-center rounded-3xl">
             Login
           </button>
+        </div>
+
+        {/* Link to Signup */}
+        <div className="mt-4 text-center">
+          <p>
+            Don't have an account?{" "}
+            <Link href="/signup" className="text-purple-600">Sign up here</Link>
+          </p>
         </div>
       </div>
     </div>

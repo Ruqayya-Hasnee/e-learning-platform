@@ -13,7 +13,7 @@ function AdminProfile() {
       name: "Introduction to Software Engineering",
       price: 99,
       description:
-        "Learn the basics of software engineering, including software development lifecycle, design patterns, and best practices.",
+        "Learn the basics of software engineering, including SDLC, design patterns, and best practices.",
     },
     {
       id: 2,
@@ -24,7 +24,7 @@ function AdminProfile() {
       name: "Full Stack Web Development",
       price: 149,
       description:
-        "Master both frontend and backend development with hands-on projects using HTML, CSS, JavaScript, Node.js, and more.",
+        "Master frontend and backend development using JavaScript, Node.js, and more.",
     },
     {
       id: 3,
@@ -35,7 +35,7 @@ function AdminProfile() {
       name: "Mastering Java Programming",
       price: 199,
       description:
-        "A complete guide to building scalable and maintainable software using Java, covering OOP, multithreading, and more.",
+        "A complete guide to Java programming, covering OOP, multithreading, and more.",
     },
     {
       id: 4,
@@ -43,10 +43,10 @@ function AdminProfile() {
       totalReviews: 180,
       thumbnail: "https://picsum.photos/400/300?random=4",
       image: "https://picsum.photos/400/300?random=14",
-      name: "Data Structures & Algorithms for Software Engineers",
+      name: "Data Structures & Algorithms",
       price: 129,
       description:
-        "Learn how to solve complex coding problems and optimize your software with efficient algorithms and data structures.",
+        "Learn how to optimize software with efficient algorithms and data structures.",
     },
     {
       id: 5,
@@ -57,7 +57,7 @@ function AdminProfile() {
       name: "Software Design & Architecture",
       price: 179,
       description:
-        "Understand key principles of software design and architecture, including design patterns, UML diagrams, and system scalability.",
+        "Understand key principles of software design, including UML diagrams and scalability.",
     },
     {
       id: 6,
@@ -68,89 +68,85 @@ function AdminProfile() {
       name: "DevOps Fundamentals",
       price: 159,
       description:
-        "Learn how to integrate development and operations to streamline the software release process and improve collaboration.",
+        "Learn how to integrate development and operations to improve software releases.",
     },
   ];
+
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="p-10 flex justify-between gap-10">
-        <Link href="#" className="text-2xl">
-          Admin Profile
-        </Link>
-        <Link href="/instructorprofile" className="text-xl">
-          <button className="bg-purple-500 text-white rounded-3xl px-2 py-1">
+    <div className="min-h-screen bg-gray-100 text-gray-800">
+      {/* Header */}
+      <div className="p-8 flex justify-between items-center bg-white shadow-md">
+        <h1 className="text-3xl font-bold">Admin Profile</h1>
+        <Link href="/instructorprofile">
+          <button className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-4 py-2 rounded-full transition-all">
             Instructor Profile
           </button>
         </Link>
       </div>
 
-      <div className="flex justify-center">
-        <div className="flex w-380 shadow-sm p-4 mx-8 rounded bg-white">
-          <img
-            src="/landing-page.avif"
-            alt="admin-pic"
-            className="rounded-full w-26 h-26 border"
-          />
-          <div className="flex flex-col justify-center p-4">
-            <h1>Name</h1>
-            <h1>Admin</h1>
-            <h1>United Kingdom</h1>
+      {/* Admin Profile */}
+      <div className="grid grid-cols-2 ">
+        <div className="flex justify-center mt-6">
+          <div className="flex items-center bg-white shadow-lg p-6 rounded-lg w-190 ml-8 h-40  m-6">
+            <img
+              src="/landing-page.avif"
+              alt="admin"
+              className="rounded-full w-24 h-24 border-4 border-gray-300"
+            />
+            <div className="ml-6">
+              <h2 className="text-xl font-semibold">Admin</h2>
+              <p className="text-gray-600">United Kingdom</p>
+            </div>
           </div>
         </div>
-      </div>
-      <h1 className="text-2xl p-10">Personal Information</h1>
 
-      <div className="flex justify-center">
-        <div className="w-380 shadow-sm p-4 mx-8 rounded bg-white">
-          <div className="flex justify-evenly">
-            <div className="flex flex-col">
-              <span className="gap-12">Name</span>
-              <span className="gap-12">CNIC</span>
-              <span className="gap-12">Birth Date</span>
-              <span className="gap-12">Address</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="gap-12">Ruqayya</span>
-              <span className="gap-12">6767-6767-76</span>
-              <span className="gap-12">3/5/2003</span>
-              <span className="gap-12">City Name</span>
-            </div>
+        {/* Personal Info */}
+        <div className="w-180 h-40 mt-12 bg-white shadow-lg p-6 rounded-lg">
+          <h2 className="text-2xl font-semibold mb-4">Personal Information</h2>
+          <div className="grid grid-cols-2 gap-4 text-gray-700">
+            <p>
+              <strong>Name:</strong> Ruqayya
+            </p>
+            <p>
+              <strong>CNIC:</strong> 6767-6767-76
+            </p>
+            <p>
+              <strong>Birth Date:</strong> 3/5/2003
+            </p>
+            <p>
+              <strong>Address:</strong> City Name
+            </p>
           </div>
         </div>
-      </div>
-      <h1 className="text-2xl p-10">Bio Information</h1>
-      <div className="flex justify-center">
-        <div className="w-380 shadow-sm p-4 mx-8 rounded text-gray-700 bg-white">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat ipsa
-            necessitatibus incidunt repellat, reiciendis consequuntur dolorem
-            numquam nisi voluptas itaque sequi, molestias minima nobis
-            reprehenderit et. Quibusdam voluptates eos doloremque? Lorem ipsum
-            dolor sit amet consectetur adipisicing elit. Minima possimus rem
-            corporis quisquam itaque hic dignissimos voluptas! Possimus ratione,
-            nostrum qui impedit illum suscipit voluptates blanditiis iure
-            tenetur iusto perspiciatis? Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Tempora, consequuntur magni numquam facilis
-            provident deleniti, laboriosam quaerat explicabo nam consectetur
-            ullam sunt accusamus dolore ducimus saepe voluptates alias adipisci
-            vitae.
+
+        {/* Bio Information */}
+        <div className="w-362 h-50 ml-8 mt-10 bg-white shadow-lg p-6 rounded-lg">
+          <h2 className="text-2xl font-semibold mb-4">Bio Information</h2>
+          <p className="text-gray-600">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat
+            ipsa necessitatibus incidunt repellat, reiciendis consequuntur
+            dolorem numquam nisi voluptas itaque sequi, molestias minima nobis
+            reprehenderit et.
           </p>
         </div>
       </div>
-      <h1 className="text-2xl p-10">Courses</h1>
-      <div className="grid grid-cols-3 px-20 pb-8 gap-4">
-        {courses.map((course) => (
-          <CourseCard
-            key={course.id}
-            rating={course.rating}
-            totalReviews={course.totalReviews}
-            thumbnail={course.thumbnail}
-            image={course.image}
-            name={course.name}
-            price={course.price}
-            description={course.description}
-          />
-        ))}
+      {/* Courses Section */}
+      <div className="mt-12 px-12">
+        <h2 className="text-3xl font-semibold text-center mb-8">Courses</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {courses.map((course) => (
+            <CourseCard
+              key={course.id}
+              rating={course.rating}
+              totalReviews={course.totalReviews}
+              thumbnail={course.thumbnail}
+              image={course.image}
+              name={course.name}
+              price={course.price}
+              description={course.description}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
