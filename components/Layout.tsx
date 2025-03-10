@@ -1,11 +1,11 @@
 import React from "react";
-import Main from "./Main";
+import Dashboard from "./Dashboard";
 
 function Layout() {
   return (
     <>
       <div className="bg-[url('/landing-page.avif')] bg-cover bg-no-repeat min-h-screen overflow-hidden ">
-        <Main />
+        <Dashboard />
       </div>
     </>
   );

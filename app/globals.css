@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+button {
+  cursor: pointer;
+}
+
 @layer components{
   .card{
     @apply bg-white rounded w-full h-auto object-cover p-4
@@ -7,5 +11,4 @@
   .card img{
     @apply w-full h-48 object-cover rounded-t-lg 
   }
-  
 }

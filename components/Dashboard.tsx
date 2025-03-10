@@ -1,6 +1,6 @@
 import React from "react";
 
-function Main() {
+function Dashboard() {
   return (
     <div className="flex pl-64 mt-32">
       <div className="w-lg">
@@ -18,4 +18,4 @@ function Main() {
   );
 }
 
-export default Main;
+export default Dashboard;
