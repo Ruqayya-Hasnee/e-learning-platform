@@ -1,4 +1,4 @@
-import CourseCard from "@/components/CourseCard";
+import CourseCard from "@/app/components/CourseCard";
 import React from "react";
 import { CiSearch } from "react-icons/ci";
 
@@ -101,9 +101,7 @@ function Courses() {
           ))}
         </div>
         <div className="flex justify-center">
-          <button className="primary">
-            See All Courses
-          </button>
+          <button className="primary">See All Courses</button>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import CourseCard from "@/components/CourseCard";
+import CourseCard from "@/app/components/CourseCard";
 import { useAuth } from "../context/AuthContext";
 import { RoleType } from "@/types/user";
 import { useRouter } from "next/navigation";

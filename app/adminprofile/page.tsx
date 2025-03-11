@@ -1,5 +1,5 @@
 import React from "react";
-import CourseCard from "@/components/CourseCard";
+import CourseCard from "@/app/components/CourseCard";
 import Link from "next/link";
 import Image from "next/image";
 
