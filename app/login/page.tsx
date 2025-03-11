@@ -74,7 +74,7 @@ function Login() {
         {/* Link to Signup */}
         <div className="text-center mt-0.5">
           <p>
-            Don't have an account?{" "}
+            Don't have an account?
             <Link href="/signup" className="text-purple-600">
               Sign up here
             </Link>
