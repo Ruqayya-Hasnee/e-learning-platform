@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import Image from "next/image";
 interface ModalProps {
   isOpen: boolean;
   handleClose: () => void;
@@ -98,9 +98,11 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose }) => {
 
         {/* Upload Section */}
         <div className="flex flex-col items-center text-center text-gray-600">
-          <img src="/upload.png" alt="upload" className="w-24 h-24 mt-2" />
+          <Image src="/upload.png" alt="upload" className="w-24 h-24 mt-2" />
           <h1 className="font-bold text-lg mt-2">Drag & Drop to Upload</h1>
-          <p className="text-sm mb-3">Your videos remain private until published</p>
+          <p className="text-sm mb-3">
+            Your videos remain private until published
+          </p>
 
           {/* File Input (Hidden) */}
           <input

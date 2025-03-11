@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface CourseCardProps {
   rating: number;
@@ -21,7 +22,7 @@ export default function CourseCard({
 }: CourseCardProps) {
   return (
     <div className="card">
-      <img src={thumbnail} alt="landscape image" />
+      <Image src={thumbnail} alt="landscape image" />
       <div className="flex flex-col gap-1 p-2">
         <p>
           ⭐{rating}({totalReviews})
@@ -29,7 +30,7 @@ export default function CourseCard({
         <p className="font-bold">{description}</p>
         <div className="flex justify-between items-center font-bold">
           <div className="flex items-center gap-2">
-            <img
+            <Image
               src={image}
               alt="landscape image"
               className="w-10 h-10 rounded-full"

@@ -5,6 +5,7 @@ import CourseCard from "@/components/CourseCard";
 import { useAuth } from "../context/AuthContext";
 import { RoleType } from "@/types/user";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 function StudentProfile() {
   const courses = [
@@ -72,7 +73,7 @@ function StudentProfile() {
             {/* left div */}
             <div className="flex flex-col justify-center bg-white w-1/3 h-auto py-8 shadow-sm">
               <div className="flex justify-center pb-6">
-                <img
+                <Image
                   src="/landing-page.avif"
                   alt="page image"
                   className="rounded-full w-32 h-32 border"

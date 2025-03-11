@@ -8,6 +8,7 @@ import Modal from "@/components/Modal";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
 import { RoleType } from "@/types/user";
+import Image from "next/image";
 
 function InstructorProfile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -80,7 +81,7 @@ function InstructorProfile() {
         </p>
         <div className="flex justify-evenly">
           <div className="bg-blue-600 w-352 h-25 my-12">
-            <img
+            <Image
               src="/landing-page.avif"
               alt="admin-pic"
               className="rounded-full w-26 h-26 mx-28 my-4 shadow"
@@ -110,7 +111,7 @@ function InstructorProfile() {
               quasi magnam asperiores praesentium illo fugit?
             </p>
             <div className="flex gap-4">
-              <img src="/academic.jpeg" alt="academic" className="w-30 h-30" />
+              <Image src="/academic.jpeg" alt="academic" className="w-30 h-30" />
               <div>
                 <h1 className="font-bold text-lg">Education</h1>
                 <div className="flex items-center gap-2 pt-4">
@@ -124,7 +125,7 @@ function InstructorProfile() {
               </div>
             </div>
             <div className="flex gap-4">
-              <img src="/trophy.jpg" alt="academic" className="w-30 h-30" />
+              <Image src="/trophy.jpg" alt="academic" className="w-30 h-30" />
               <div>
                 <h1 className="font-bold text-lg">Achievements</h1>
                 <div className="flex items-center gap-2 pt-4">

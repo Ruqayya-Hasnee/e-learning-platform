@@ -1,6 +1,7 @@
 import React from "react";
 import CourseCard from "@/components/CourseCard";
 import Link from "next/link";
+import Image from "next/image";
 
 function AdminProfile() {
   const courses = [
@@ -88,7 +89,7 @@ function AdminProfile() {
       <div className="grid grid-cols-2 ">
         <div className="flex justify-center mt-6">
           <div className="flex items-center bg-white shadow-lg p-6 rounded-lg w-190 ml-8 h-40  m-6">
-            <img
+            <Image
               src="/landing-page.avif"
               alt="admin"
               className="rounded-full w-24 h-24 border-4 border-gray-300"
