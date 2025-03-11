@@ -92,6 +92,8 @@ function AdminProfile() {
             <Image
               src="/landing-page.avif"
               alt="admin"
+              width={100}
+              height={100}
               className="rounded-full w-24 h-24 border-4 border-gray-300"
             />
             <div className="ml-6">

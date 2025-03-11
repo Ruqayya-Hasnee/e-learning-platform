@@ -22,7 +22,7 @@ export default function CourseCard({
 }: CourseCardProps) {
   return (
     <div className="card">
-      <Image src={thumbnail} alt="landscape image" />
+      <Image src={thumbnail} alt="landscape image" width={100} height={100} />
       <div className="flex flex-col gap-1 p-2">
         <p>
           ⭐{rating}({totalReviews})
@@ -32,6 +32,8 @@ export default function CourseCard({
           <div className="flex items-center gap-2">
             <Image
               src={image}
+              width={100}
+              height={100}
               alt="landscape image"
               className="w-10 h-10 rounded-full"
             />

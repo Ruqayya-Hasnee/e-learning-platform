@@ -84,6 +84,8 @@ function InstructorProfile() {
             <Image
               src="/landing-page.avif"
               alt="admin-pic"
+              width={100}
+              height={100}
               className="rounded-full w-26 h-26 mx-28 my-4 shadow"
             />
           </div>
@@ -111,7 +113,13 @@ function InstructorProfile() {
               quasi magnam asperiores praesentium illo fugit?
             </p>
             <div className="flex gap-4">
-              <Image src="/academic.jpeg" alt="academic" className="w-30 h-30" />
+              <Image
+                src="/academic.jpeg"
+                alt="academic"
+                width={100}
+                height={100}
+                className="w-30 h-30"
+              />
               <div>
                 <h1 className="font-bold text-lg">Education</h1>
                 <div className="flex items-center gap-2 pt-4">
@@ -125,7 +133,13 @@ function InstructorProfile() {
               </div>
             </div>
             <div className="flex gap-4">
-              <Image src="/trophy.jpg" alt="academic" className="w-30 h-30" />
+              <Image
+                src="/trophy.jpg"
+                alt="academic"
+                width={100}
+                height={100}
+                className="w-30 h-30"
+              />
               <div>
                 <h1 className="font-bold text-lg">Achievements</h1>
                 <div className="flex items-center gap-2 pt-4">

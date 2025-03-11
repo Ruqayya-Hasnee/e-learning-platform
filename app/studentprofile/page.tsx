@@ -76,6 +76,8 @@ function StudentProfile() {
                 <Image
                   src="/landing-page.avif"
                   alt="page image"
+                  width={100}
+                  height={100}
                   className="rounded-full w-32 h-32 border"
                 />
               </div>
