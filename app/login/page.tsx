@@ -2,22 +2,28 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "../context/AuthContext";
+import { RoleType, User } from "@/types/user";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const { login } = useAuth();
+
   const router = useRouter();
-  const users = [
+
+  const users: (User & { password: string })[] = [
     {
       email: "student@gmail.com",
       password: "password123",
-      type: "student",
+      role: RoleType.STUDENT,
     },
     {
       email: "instructor@gmail.com",
       password: "password123",
-      type: "instructor",
+      role: RoleType.INSTRUCTOR,
     },
   ];
 
@@ -27,12 +33,13 @@ function Login() {
       (user) => user.email === email && user.password === password
     );
     if (user) {
-      if (user.type === "student") {
+      login(user)
+      if (user.role === RoleType.STUDENT) {
         router.push("/studentprofile"); // Redirect to student profile
-      } else if (user.type === "instructor") {
+      } else if (user.role === RoleType.INSTRUCTOR) {
         router.push("/instructorprofile"); // Redirect to instructor profile
       } else {
-        setError("User type not recognized");
+        setError("User role not recognized");
       }
     } else {
       setError("Invalid email or password");
@@ -45,13 +52,13 @@ function Login() {
         <h1 className="text-center font-bold text-xl mb-2">Login</h1>
         <div className="flex flex-col gap-2">
           <input
-            type="email"
+            role="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
           />
           <input
-            type="password"
+            role="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter password"

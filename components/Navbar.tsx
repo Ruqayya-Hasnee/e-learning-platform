@@ -2,8 +2,11 @@
 
 import React from "react";
 import Link from "next/link";
+import { useAuth } from "@/app/context/AuthContext";
 
 function Navbar() {
+  const { user } = useAuth();
+
   return (
     <div className="text-blue-900 flex justify-between items-center h-12 mx-35">
       <div className="font-bold">
@@ -15,16 +18,18 @@ function Navbar() {
         <Link href="/contact">Contact</Link>
       </div>
       <div className="flex gap-4">
-        <Link href="/signup">
-          <button className="secondary">
-            Sign Up
-          </button>
-        </Link>
-        <Link href="/login">
-          <button className="secondary">
-            Login
-          </button>
-        </Link>
+        {user ? (
+          <>Logout</>
+        ) : (
+          <>
+            <Link href="/signup">
+              <button className="secondary">Sign Up</button>
+            </Link>
+            <Link href="/login">
+              <button className="secondary">Login</button>
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );
