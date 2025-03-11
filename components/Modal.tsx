@@ -121,7 +121,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose }) => {
           {/* Select File Button */}
           <button
             type="button"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg px-6 py-2 mt-3 transition-all"
+            className="hover:bg-blue-700 secondary mb-4 transition-all"
             onClick={handleSelectFile}
           >
             Select File
@@ -130,7 +130,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose }) => {
           {/* Submit Button */}
           <button
             type="button"
-            className="bg-black hover:bg-gray-900 text-white font-semibold rounded-lg px-6 py-2 mt-4 transition-all w-full"
+            className="primary transition-all w-full"
             onClick={handleSubmit}
           >
             Submit

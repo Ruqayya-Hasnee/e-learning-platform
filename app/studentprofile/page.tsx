@@ -49,8 +49,9 @@ function StudentProfile() {
     },
   ];
   return (
-    <div className="min-h-screen bg-gray-100 px-28">
-      <div>
+    <div className="bg-gray-100">
+     <div className="mx-35">
+     <div>
         <h1 className="text-2xl text-center py-6">Student Profile</h1>
         <div className="flex text-center gap-8">
           {/* left div */}
@@ -88,8 +89,8 @@ function StudentProfile() {
         </div>
       </div>
       <div>
-        <h1 className="text-2xl pt-12 pl-8">Enrolled Courses</h1>
-        <div className="grid grid-cols-3 px-20 py-12 gap-4">
+        <h1 className="text-2xl pt-12">Enrolled Courses</h1>
+        <div className="grid grid-cols-3 py-12 gap-4">
           {courses.map((course) => (
             <CourseCard
               key={course.id}
@@ -104,6 +105,7 @@ function StudentProfile() {
           ))}
         </div>
       </div>
+     </div>
     </div>
   );
 }

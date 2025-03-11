@@ -57,101 +57,108 @@ function InstructorProfile() {
   ];
 
   return (
-    <div className="px-30">
-      <h1 className="text-2xl py-8">Instructor Profile</h1>
-      <p className="text-gray-600">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro libero
-        quasi, aperiam fugiat dolore at laudantium est dignissimos voluptatum,
-        quas, officiis nostrum nam maxime iste consequatur! Ipsam laudantium
-        optio impedit.
-      </p>
-      <div className="flex justify-evenly">
-        <div className="bg-blue-600 w-300 h-25 m-12">
-          <img
-            src="/landing-page.avif"
-            alt="admin-pic"
-            className="rounded-full w-26 h-26 mx-28 my-4 shadow"
-          />
-        </div>
-      </div>
-      <div className="flex justify-between text-gray-600 px-40">
-        <div>
-          <h1 className="font-bold text-lg">Liam Johnson</h1>
-          <p>Instructor</p>
-          <div className="flex items-center gap-2 pt-4">
-            <MdOutlineLibraryBooks />
-            <span>1 Courses Offered</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <VscMortarBoard />
-            <span>3 Enrolled Students</span>
+    <div className="bg-gray-100">
+      <div className="mx-35">
+        <h1 className="text-2xl py-8">Instructor Profile</h1>
+        <p className="text-gray-600">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro libero
+          quasi, aperiam fugiat dolore at laudantium est dignissimos voluptatum,
+          quas, officiis nostrum nam maxime iste consequatur! Ipsam laudantium
+          optio impedit.
+        </p>
+        <div className="flex justify-evenly">
+          <div className="bg-blue-600 w-352 h-25 my-12">
+            <img
+              src="/landing-page.avif"
+              alt="admin-pic"
+              className="rounded-full w-26 h-26 mx-28 my-4 shadow"
+            />
           </div>
         </div>
+        <div className="flex justify-between text-gray-600 px-40">
+          <div>
+            <h1 className="font-bold text-lg">Liam Johnson</h1>
+            <p>Instructor</p>
+            <div className="flex items-center gap-2 pt-4">
+              <MdOutlineLibraryBooks />
+              <span>1 Courses Offered</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <VscMortarBoard />
+              <span>3 Enrolled Students</span>
+            </div>
+          </div>
 
-        <div className="w-2/3 space-y-4">
-          <h1 className="font-bold text-lg">Introduction</h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam
-            veritatis sapiente ex amet odio cumque voluptatum accusantium
-            deserunt, blanditiis dolorem saepe doloribus aspernatur officiis
-            quasi magnam asperiores praesentium illo fugit?
-          </p>
-          <div className="flex gap-4">
-            <img src="/academic.jpeg" alt="academic" className="w-30 h-30" />
-            <div>
-              <h1 className="font-bold text-lg">Education</h1>
-              <div className="flex items-center gap-2 pt-4">
-                <VscMortarBoard />
-                <span>Master in Computer Science</span>
+          <div className="w-2/3 space-y-4">
+            <h1 className="font-bold text-lg">Introduction</h1>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam
+              veritatis sapiente ex amet odio cumque voluptatum accusantium
+              deserunt, blanditiis dolorem saepe doloribus aspernatur officiis
+              quasi magnam asperiores praesentium illo fugit?
+            </p>
+            <div className="flex gap-4">
+              <img src="/academic.jpeg" alt="academic" className="w-30 h-30" />
+              <div>
+                <h1 className="font-bold text-lg">Education</h1>
+                <div className="flex items-center gap-2 pt-4">
+                  <VscMortarBoard />
+                  <span>Master in Computer Science</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <VscMortarBoard />
+                  <span>PhD in Computer Science and Engineering</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <VscMortarBoard />
-                <span>PhD in Computer Science and Engineering</span>
+            </div>
+            <div className="flex gap-4">
+              <img src="/trophy.jpg" alt="academic" className="w-30 h-30" />
+              <div>
+                <h1 className="font-bold text-lg">Achievements</h1>
+                <div className="flex items-center gap-2 pt-4">
+                  <GoTrophy />
+                  <span>Microsoft Certified Solution Developer</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <GoTrophy />
+                  <span>Assisted Faculty at Oakridge University</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <GoTrophy />
+                  <span>Guest Lecturer at Stanford University</span>
+                </div>
               </div>
             </div>
           </div>
-          <div className="flex gap-4">
-            <img src="/trophy.jpg" alt="academic" className="w-30 h-30" />
-            <div>
-              <h1 className="font-bold text-lg">Achievements</h1>
-              <div className="flex items-center gap-2 pt-4">
-                <GoTrophy />
-                <span>Microsoft Certified Solution Developer</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <GoTrophy />
-                <span>Assisted Faculty at Oakridge University</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <GoTrophy />
-                <span>Guest Lecturer at Stanford University</span>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-      <div className="flex justify-between py-10">
-        <h1 className="text-2xl ">Uploaded Courses</h1>
+        <div className="flex justify-between py-10">
+          <h1 className="text-2xl ">Uploaded Courses</h1>
 
-        <button className="primary" onClick={() => setIsModalOpen(true)}>
-          Add New Course
-        </button>
-      </div>
-      <div className="grid grid-cols-3 px-20 pb-8 gap-4">
-        {courses.map((course) => (
-          <CourseCard    
-            key={course.id}
-            rating={course.rating}
-            totalReviews={course.totalReviews}
-            thumbnail={course.thumbnail}
-            image={course.image}
-            name={course.name}
-            price={course.price}
-            description={course.description}
+          <button className="primary" onClick={() => setIsModalOpen(true)}>
+            Add New Course
+          </button>
+        </div>
+        <div className="grid grid-cols-3 pb-8 gap-4">
+          {courses.map((course) => (
+            <CourseCard
+              key={course.id}
+              rating={course.rating}
+              totalReviews={course.totalReviews}
+              thumbnail={course.thumbnail}
+              image={course.image}
+              name={course.name}
+              price={course.price}
+              description={course.description}
+            />
+          ))}
+        </div>
+        {isModalOpen && (
+          <Modal
+            isOpen={isModalOpen}
+            handleClose={() => setIsModalOpen(false)}
           />
-        ))}
+        )}
       </div>
-     {isModalOpen && <Modal isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)} />}
     </div>
   );
 }
