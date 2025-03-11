@@ -15,9 +15,11 @@ function Navbar() {
       </div>
       <div className="flex gap-12 font-bold">
         <Link href="/">Home</Link>
+        <Link href="/about">About</Link>
         <Link href="/courses">Courses</Link>
         <Link href="/contact">Contact</Link>
-      </div>s
+      </div>
+      s
       <div className="flex gap-4">
         {user ? (
           <>
