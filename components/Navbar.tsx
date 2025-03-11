@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
+import { RoleType } from "@/types/user";
 
 function Navbar() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <div className="text-blue-900 flex justify-between items-center h-12 mx-35">
@@ -16,10 +17,23 @@ function Navbar() {
         <Link href="/">Home</Link>
         <Link href="/courses">Courses</Link>
         <Link href="/contact">Contact</Link>
-      </div>
+      </div>s
       <div className="flex gap-4">
         {user ? (
-          <>Logout</>
+          <>
+            <Link
+              href={
+                user?.role === RoleType.STUDENT
+                  ? "/studentprofile"
+                  : "/instructorprofile"
+              }
+            >
+              Profile
+            </Link>
+            <button className="primary" onClick={logout}>
+              Logout
+            </button>
+          </>
         ) : (
           <>
             <Link href="/signup">

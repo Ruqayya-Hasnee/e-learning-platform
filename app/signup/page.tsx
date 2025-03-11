@@ -94,10 +94,7 @@ function SignUp() {
                     onChange={(e) => setAchievementInput(e.target.value)}
                     className="w-6/7"
                   />
-                  <button
-                    onClick={addAchievement}
-                    className="primary w-1/7"
-                  >
+                  <button onClick={addAchievement} className="primary w-1/7">
                     +
                   </button>
                 </div>

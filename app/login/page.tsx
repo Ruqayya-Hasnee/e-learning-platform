@@ -33,7 +33,7 @@ function Login() {
       (user) => user.email === email && user.password === password
     );
     if (user) {
-      login(user)
+      login(user);
       if (user.role === RoleType.STUDENT) {
         router.push("/studentprofile"); // Redirect to student profile
       } else if (user.role === RoleType.INSTRUCTOR) {
@@ -52,12 +52,14 @@ function Login() {
         <h1 className="text-center font-bold text-xl mb-2">Login</h1>
         <div className="flex flex-col gap-2">
           <input
+            type="email"
             role="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
           />
           <input
+            type="password"
             role="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -73,7 +75,7 @@ function Login() {
         <div className="text-center mt-0.5">
           <p>
             Don't have an account?{" "}
-            <Link href="/signup" passHref>
+            <Link href="/signup" className="text-purple-600">
               Sign up here
             </Link>
           </p>

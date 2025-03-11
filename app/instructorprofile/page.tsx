@@ -5,6 +5,9 @@ import { MdOutlineLibraryBooks } from "react-icons/md";
 import { GoTrophy } from "react-icons/go";
 import CourseCard from "@/components/CourseCard";
 import Modal from "@/components/Modal";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../context/AuthContext";
+import { RoleType } from "@/types/user";
 
 function InstructorProfile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -55,6 +58,15 @@ function InstructorProfile() {
         "Learn how to solve complex coding problems and optimize your software with efficient algorithms and data structures.",
     },
   ];
+
+  const router = useRouter();
+
+  const { user } = useAuth();
+
+  if (!user || user?.role !== RoleType.INSTRUCTOR) {
+    router.push("/login");
+    return;
+  }
 
   return (
     <div className="bg-gray-100">
