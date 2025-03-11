@@ -19,7 +19,7 @@ function Navbar() {
         <Link href="/courses">Courses</Link>
         <Link href="/contact">Contact</Link>
       </div>
-      s
+
       <div className="flex gap-4">
         {user ? (
           <>
