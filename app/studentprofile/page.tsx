@@ -68,7 +68,7 @@ function StudentProfile() {
     <div className="bg-gray-100">
       <div className="mx-35">
         <div>
-          <h1 className="text-2xl text-center py-6">Student Profile</h1>
+          <h1 className="text-blue-900 text-2xl text-center py-6">Student Profile</h1>
           <div className="flex text-center gap-8">
             {/* left div */}
             <div className="flex flex-col justify-center bg-white w-1/3 h-auto py-8 shadow-sm">
@@ -107,7 +107,7 @@ function StudentProfile() {
           </div>
         </div>
         <div>
-          <h1 className="text-2xl pt-12">Enrolled Courses</h1>
+          <h1 className="text-blue-900 text-2xl pt-12">Enrolled Courses</h1>
           <div className="grid grid-cols-3 py-12 gap-4">
             {courses.map((course) => (
               <CourseCard

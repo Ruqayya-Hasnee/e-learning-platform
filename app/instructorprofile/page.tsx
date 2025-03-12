@@ -72,7 +72,7 @@ function InstructorProfile() {
   return (
     <div className="bg-gray-100">
       <div className="mx-35">
-        <h1 className="text-2xl py-8">Instructor Profile</h1>
+        <h1 className="text-blue-900 text-2xl py-8">Instructor Profile</h1>
         <p className="text-gray-600">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro libero
           quasi, aperiam fugiat dolore at laudantium est dignissimos voluptatum,
@@ -159,7 +159,7 @@ function InstructorProfile() {
           </div>
         </div>
         <div className="flex justify-between py-10">
-          <h1 className="text-2xl ">Uploaded Courses</h1>
+          <h1 className="text-blue-900 text-2xl">Uploaded Courses</h1>
 
           <button className="primary" onClick={() => setIsModalOpen(true)}>
             Add New Course

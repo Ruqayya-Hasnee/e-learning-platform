@@ -30,7 +30,7 @@ function SignUp() {
   return (
     <div className="w-full min-h-[calc(100vh-3rem)] flex justify-center items-center bg-gray-100">
       <div className="bg-white rounded-xl p-6 w-96 shadow-lg">
-        <h1 className="text-center font-bold text-xl mb-4">Sign Up</h1>
+        <h1 className="text-blue-900 text-center font-bold text-xl mb-4">Sign Up</h1>
 
         {/* Role Selection */}
         <div className="flex justify-between mb-4 gap-2">

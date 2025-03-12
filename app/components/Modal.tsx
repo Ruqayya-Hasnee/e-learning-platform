@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+
 interface ModalProps {
   isOpen: boolean;
   handleClose: () => void;
@@ -9,6 +10,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [price, setPrice] = useState<string>("");
 
   // Close modal on Escape key press
   useEffect(() => {
@@ -45,18 +47,20 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose }) => {
 
   // Handle form submission
   const handleSubmit = () => {
-    if (!title || !description || !selectedFile) {
+    if (!title || !description || !selectedFile || !price) {
       alert("Please fill out all fields and select a file.");
       return;
     }
     console.log("Title:", title);
     console.log("Description:", description);
     console.log("File:", selectedFile.name);
+    console.log("Price:", price);
 
     // Clear inputs after submission
     setTitle("");
     setDescription("");
     setSelectedFile(null);
+    setPrice("");
     handleClose(); // Close modal after submission
   };
 
@@ -74,7 +78,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose }) => {
         </button>
 
         {/* Modal Title */}
-        <h1 className="text-2xl font-semibold mb-4 text-gray-800 text-center">
+        <h1 className="text-blue-900 text-2xl font-semibold mb-4 text-center">
           Upload Video
         </h1>
         <hr className="border-gray-300 mb-4" />
@@ -96,9 +100,26 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose }) => {
           className="border border-gray-300 rounded-lg p-3 w-full h-24 mb-4 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
         />
 
+        {/* Price Input */}
+        <input
+          type="number" 
+          min={0}
+          placeholder="Enter course price in dollars"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          className="border border-gray-300 rounded-lg p-3 w-full mb-4 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+        />
+
         {/* Upload Section */}
         <div className="flex flex-col items-center text-center text-gray-600">
-          <Image src="/upload.png" alt="upload" className="w-24 h-24 mt-2" />
+          {/* Image Component - Fixed the error here */}
+          <Image
+            src="/upload.png"
+            alt="upload"
+            width={24}
+            height={24}
+            className="w-24 h-24 mt-2"
+          />
           <h1 className="font-bold text-lg mt-2">Drag & Drop to Upload</h1>
           <p className="text-sm mb-3">
             Your videos remain private until published

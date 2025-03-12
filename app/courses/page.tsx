@@ -76,7 +76,7 @@ function Courses() {
     <div className="bg-gray-100">
       <div className="mx-35 py-7">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Explore Our Courses</h1>
+          <h1 className="text-2xl text-blue-900 font-bold">Explore Our Courses</h1>
           <div className="flex relative items-center">
             <input
               type="text"
