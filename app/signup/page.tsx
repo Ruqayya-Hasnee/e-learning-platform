@@ -1,11 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 function SignUp() {
   const [role, setRole] = useState<"student" | "instructor">("student");
   const [hydrated, setHydrated] = useState(false);
   const [achievementInput, setAchievementInput] = useState("");
+  const [userRegistering, setUserRegistering] = useState<boolean>(false);
   const [signupData, setSignupData] = useState({
     name: "",
     email: "",
@@ -14,6 +18,8 @@ function SignUp() {
     education: "",
     achievements: [],
   });
+
+  const router = useRouter();
 
   useEffect(() => {
     setHydrated(true); // Ensures component only updates on client-side
@@ -42,9 +48,26 @@ function SignUp() {
     });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log(signupData);
+
+    setUserRegistering(true);
+
+    try {
+      const response = await axios.post(
+        "https://e-learning-platform-server-0fca.onrender.com/auth/signup",
+        signupData
+      );
+      toast.success("Signup successful!");
+      router.push("/login");
+      console.log("Signup successful:", response.data);
+    } catch (error: any) {
+      console.log("Signup failed:", error);
+      // Handle error (e.g., show error message to the user)
+      toast.error(error?.message ?? "Something went wrong...");
+    } finally {
+      setUserRegistering(false);
+    }
   };
 
   return (
@@ -164,7 +187,11 @@ function SignUp() {
               </>
             )}
 
-            <button className="primary w-full" type="submit">
+            <button
+              className="primary w-full"
+              type="submit"
+              disabled={userRegistering}
+            >
               Create {role === "student" ? "Student" : "Instructor"} Account
             </button>
 
