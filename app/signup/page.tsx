@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, FormEvent, ChangeEvent } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import Link from "next/link";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -49,7 +49,7 @@ function SignUp() {
 
     setSignupData({
       ...signupData,
-      achievements: [trimmedInput, ...signupData.achievements] as any, // Prepend to list
+      achievements: [trimmedInput, ...signupData.achievements], // Prepend to list
     });
 
     setAchievementInput(""); // Reset input
@@ -63,7 +63,7 @@ function SignUp() {
     });
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setUserRegistering(true);
 
