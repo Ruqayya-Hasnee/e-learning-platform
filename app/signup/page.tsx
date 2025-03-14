@@ -1,16 +1,31 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FormEvent, ChangeEvent } from "react";
 import Link from "next/link";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+
+// Define TypeScript interface for Signup Data
+interface SignupData {
+  name: string;
+  email: string;
+  password: string;
+  introduction?: string;
+  education?: string;
+  achievements: string[];
+}
+
+// Define API Response Type
+interface SignupResponse {
+  userId?: string;
+}
 
 function SignUp() {
   const [role, setRole] = useState<"student" | "instructor">("student");
   const [hydrated, setHydrated] = useState(false);
   const [achievementInput, setAchievementInput] = useState("");
   const [userRegistering, setUserRegistering] = useState<boolean>(false);
-  const [signupData, setSignupData] = useState({
+  const [signupData, setSignupData] = useState<SignupData>({
     name: "",
     email: "",
     password: "",
@@ -22,12 +37,12 @@ function SignUp() {
   const router = useRouter();
 
   useEffect(() => {
-    setHydrated(true); // Ensures component only updates on client-side
+    setHydrated(true);
   }, []);
 
   if (!hydrated) return null; // Prevent hydration mismatch
 
-  // Function to add achievements (prepend to the list)
+  // Function to add achievements
   const addAchievement = () => {
     const trimmedInput = achievementInput.trim();
     if (!trimmedInput) return; // Prevent empty input
@@ -37,7 +52,7 @@ function SignUp() {
       achievements: [trimmedInput, ...signupData.achievements] as any, // Prepend to list
     });
 
-    setAchievementInput(""); // Reset input after adding
+    setAchievementInput(""); // Reset input
   };
 
   // Function to remove an achievement
@@ -50,21 +65,22 @@ function SignUp() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
     setUserRegistering(true);
 
     try {
-      const response = await axios.post(
+      const response = await axios.post<SignupResponse>(
         "https://e-learning-platform-server-0fca.onrender.com/auth/signup",
         signupData
       );
       toast.success("Signup successful!");
       router.push("/login");
       console.log("Signup successful:", response.data);
-    } catch (error: any) {
-      console.log("Signup failed:", error);
-      // Handle error (e.g., show error message to the user)
-      toast.error(error?.message ?? "Something went wrong...");
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message || "Something went wrong...");
+      } else {
+        toast.error("Signup failed. Please try again.");
+      }
     } finally {
       setUserRegistering(false);
     }
@@ -81,6 +97,7 @@ function SignUp() {
           {/* Role Selection */}
           <div className="flex justify-between mb-4 gap-2">
             <button
+              type="button"
               onClick={() => setRole("student")}
               className={`primary w-1/2 ${
                 role === "student" ? "bg-purple-600 text-white" : "bg-gray-200"
@@ -89,6 +106,7 @@ function SignUp() {
               Student
             </button>
             <button
+              type="button"
               onClick={() => setRole("instructor")}
               className={`secondary w-1/2 ${
                 role === "instructor"
@@ -103,6 +121,7 @@ function SignUp() {
           <div className="flex flex-col gap-2">
             <input
               type="text"
+              name="name"
               placeholder="Enter your name"
               onChange={(e) =>
                 setSignupData({ ...signupData, name: e.target.value })
@@ -112,6 +131,7 @@ function SignUp() {
             />
             <input
               type="email"
+              name="email"
               placeholder="Enter your email"
               onChange={(e) =>
                 setSignupData({ ...signupData, email: e.target.value })
@@ -120,6 +140,7 @@ function SignUp() {
             />
             <input
               type="password"
+              name="password"
               placeholder="Enter password"
               onChange={(e) =>
                 setSignupData({ ...signupData, password: e.target.value })
@@ -132,6 +153,7 @@ function SignUp() {
             {role === "instructor" && (
               <>
                 <textarea
+                  name="introduction"
                   placeholder="Introduction"
                   onChange={(e) =>
                     setSignupData({
@@ -142,6 +164,7 @@ function SignUp() {
                 />
                 <input
                   type="text"
+                  name="education"
                   placeholder="Education"
                   onChange={(e) =>
                     setSignupData({ ...signupData, education: e.target.value })
@@ -161,6 +184,7 @@ function SignUp() {
                       >
                         {ach}
                         <button
+                          type="button"
                           onClick={() => removeAchievement(index)}
                           className="text-red-500"
                         >
@@ -179,7 +203,11 @@ function SignUp() {
                       onChange={(e) => setAchievementInput(e.target.value)}
                       className="w-6/7"
                     />
-                    <button onClick={addAchievement} className="primary w-1/7">
+                    <button
+                      type="button"
+                      onClick={addAchievement}
+                      className="primary w-1/7"
+                    >
                       +
                     </button>
                   </div>
@@ -192,7 +220,11 @@ function SignUp() {
               type="submit"
               disabled={userRegistering}
             >
-              Create {role === "student" ? "Student" : "Instructor"} Account
+              {userRegistering
+                ? "Creating Account..."
+                : `Create ${
+                    role === "student" ? "Student" : "Instructor"
+                  } Account`}
             </button>
 
             {/* Link to Login */}
