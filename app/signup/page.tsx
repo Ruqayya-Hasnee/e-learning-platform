@@ -69,7 +69,7 @@ function SignUp() {
 
     try {
       const response = await axios.post<SignupResponse>(
-        "https://e-learning-platform-server-0fca.onrender.com/auth/signup",
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,
         signupData
       );
       toast.success("Signup successful!");
