@@ -4,6 +4,7 @@ import Link from "next/link";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { RoleType } from "@/types/user";
 
 // Define TypeScript interface for Signup Data
 interface SignupData {
@@ -13,6 +14,7 @@ interface SignupData {
   introduction?: string;
   education?: string;
   achievements: string[];
+  role: RoleType;
 }
 
 // Define API Response Type
@@ -21,7 +23,6 @@ interface SignupResponse {
 }
 
 function SignUp() {
-  const [role, setRole] = useState<"student" | "instructor">("student");
   const [hydrated, setHydrated] = useState(false);
   const [achievementInput, setAchievementInput] = useState("");
   const [userRegistering, setUserRegistering] = useState<boolean>(false);
@@ -32,6 +33,7 @@ function SignUp() {
     introduction: "",
     education: "",
     achievements: [],
+    role: RoleType.STUDENT,
   });
 
   const router = useRouter();
@@ -98,18 +100,22 @@ function SignUp() {
           <div className="flex justify-between mb-4 gap-2">
             <button
               type="button"
-              onClick={() => setRole("student")}
+              onClick={(e) =>
+                setSignupData({ ...signupData, role: RoleType.STUDENT})
+              }
               className={`primary w-1/2 ${
-                role === "student" ? "bg-purple-600 text-white" : "bg-gray-200"
+              signupData.role === RoleType.STUDENT ? "bg-purple-600 text-white" : "bg-gray-200"
               }`}
             >
               Student
             </button>
             <button
               type="button"
-              onClick={() => setRole("instructor")}
+              onClick={(e) =>
+                setSignupData({ ...signupData, role: RoleType.INSTRUCTOR })
+              }
               className={`secondary w-1/2 ${
-                role === "instructor"
+                signupData.role === RoleType.INSTRUCTOR
                   ? "bg-purple-600 text-white"
                   : "bg-gray-200"
               }`}
@@ -150,7 +156,7 @@ function SignUp() {
             />
 
             {/* Additional Fields for Instructor */}
-            {role === "instructor" && (
+            {signupData.role === RoleType.INSTRUCTOR && (
               <>
                 <textarea
                   name="introduction"
@@ -223,7 +229,7 @@ function SignUp() {
               {userRegistering
                 ? "Creating Account..."
                 : `Create ${
-                    role === "student" ? "Student" : "Instructor"
+                  signupData.role === RoleType.STUDENT  ? "Student" : "Instructor"
                   } Account`}
             </button>
 
