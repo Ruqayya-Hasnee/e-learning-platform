@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
-      <div className="max-w-6xl mx-auto bg-white p-10 rounded-2xl shadow-lg">
+    <div className="bg-gray-100 py-10">
+      <div className="mx-35 bg-white p-10 rounded-2xl shadow-lg">
         <h1 className="text-4xl font-bold text-blue-900">About Our Platform</h1>
         <p className="text-gray-600 mt-4">
           Welcome to our modern e-learning platform, where instructors can
