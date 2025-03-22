@@ -48,16 +48,16 @@ function Navbar() {
           }`}
         >
           <div className="flex flex-col md:flex-row gap-4 md:gap-6 font-bold">
-            <Link href="/" className="hover:text-blue-600">
+            <Link href="/" className="text-blue-900 hover:text-blue-600">
               Home
             </Link>
-            <Link href="/about" className="hover:text-blue-600">
+            <Link href="/about" className="text-blue-900 hover:text-blue-600">
               About
             </Link>
-            <Link href="/courses" className="hover:text-blue-600">
+            <Link href="/courses" className="text-blue-900 hover:text-blue-600">
               Courses
             </Link>
-            <Link href="/contact" className="hover:text-blue-600">
+            <Link href="/contact" className="text-blue-900 hover:text-blue-600">
               Contact
             </Link>
           </div>
