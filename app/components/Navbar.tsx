@@ -48,10 +48,18 @@ function Navbar() {
           }`}
         >
           <div className="flex flex-col md:flex-row gap-4 md:gap-6 font-bold">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
-            <Link href="/about" className="hover:text-blue-600">About</Link>
-            <Link href="/courses" className="hover:text-blue-600">Courses</Link>
-            <Link href="/contact" className="hover:text-blue-600">Contact</Link>
+            <Link href="/" className="hover:text-blue-600">
+              Home
+            </Link>
+            <Link href="/about" className="hover:text-blue-600">
+              About
+            </Link>
+            <Link href="/courses" className="hover:text-blue-600">
+              Courses
+            </Link>
+            <Link href="/contact" className="hover:text-blue-600">
+              Contact
+            </Link>
           </div>
 
           {/* Authentication Links */}
@@ -68,7 +76,10 @@ function Navbar() {
                 >
                   Profile
                 </Link>
-                <button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition" onClick={logout}>
+                <button
+                  className="secondary hover:bg-blue-600 transition"
+                  onClick={logout}
+                >
                   Logout
                 </button>
               </>
