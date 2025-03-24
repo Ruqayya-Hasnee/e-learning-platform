@@ -1,115 +1,160 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import CourseCard from "@/app/components/CourseCard";
 import { useAuth } from "../context/AuthContext";
-import { RoleType } from "@/types/user";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
+interface ProfileData {
+  id: string;
+  name: string;
+  email: string;
+  introduction: string;
+  education: string;
+  achievements: string[];
+  role: string;
+  created_at: string;
+  updated_at: string;
+}
+
 function StudentProfile() {
-  const courses = [
-    {
-      id: 1,
-      rating: 4.8,
-      totalReviews: 150,
-      thumbnail: "https://picsum.photos/400/300?random=1",
-      image: "https://picsum.photos/400/300?random=11",
-      name: "Introduction to Software Engineering",
-      price: 99,
-      description:
-        "Learn the basics of software engineering, including software development lifecycle, design patterns, and best practices.",
-    },
-    {
-      id: 4,
-      rating: 4.6,
-      totalReviews: 180,
-      thumbnail: "https://picsum.photos/400/300?random=4",
-      image: "https://picsum.photos/400/300?random=14",
-      name: "Data Structures & Algorithms",
-      price: 129,
-      description:
-        "Learn how to solve coding problems efficiently with DSA concepts.",
-    },
-    {
-      id: 5,
-      rating: 4.5,
-      totalReviews: 220,
-      thumbnail: "https://picsum.photos/400/300?random=5",
-      image: "https://picsum.photos/400/300?random=15",
-      name: "Artificial Intelligence Basics",
-      price: 179,
-      description:
-        "Understand the fundamentals of AI, machine learning, and neural networks.",
-    },
-    {
-      id: 6,
-      rating: 4.8,
-      totalReviews: 275,
-      thumbnail: "https://picsum.photos/400/300?random=6",
-      image: "https://picsum.photos/400/300?random=16",
-      name: "Cybersecurity Fundamentals",
-      price: 159,
-      description:
-        "Learn how to secure networks and protect data from cyber threats.",
-    },
-  ];
-
+  const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-
   const { user } = useAuth();
 
-  if (!user || user?.role !== RoleType.STUDENT) {
-    router.push("/login");
-    return;
+  useEffect(() => {
+    if (!user || user.role !== "STUDENT") {
+      router.push("/login");
+      return;
+    }
+
+    const fetchProfile = async () => {
+      if (!user?.access_token) {
+        console.error("Access token is missing!");
+        return;
+      }
+
+      try {
+        console.log("Fetching profile data with token:", user.access_token);
+
+        const response = await axios.get<ProfileData>(
+          `${process.env.NEXT_PUBLIC_API_URL}/users/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.access_token}`,
+            },
+          }
+        );
+
+        console.log("Profile Data:", response.data);
+        setProfile(response.data);
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+          console.error("Axios Error:", error.response?.data || error.message);
+          setError(error.response?.data?.message || "Failed to fetch profile.");
+        } else {
+          console.error("Unexpected Error:", error);
+          setError("An unexpected error occurred.");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [user, router]);
+
+  if (!user || user.role !== "STUDENT") {
+    return null;
   }
 
   return (
-    <div className="bg-gray-100">
-      <div className="mx-35">
-        <div>
-          <h1 className="text-blue-900 text-2xl text-center py-6">Student Profile</h1>
-          <div className="flex text-center gap-8">
-            {/* left div */}
-            <div className="flex flex-col justify-center bg-white w-1/3 h-auto py-8 shadow-sm">
-              <div className="flex justify-center pb-6">
-                <Image
-                  src="/landing-page.avif"
-                  alt="page image"
-                  width={100}
-                  height={100}
-                  className="rounded-full w-32 h-32 border"
-                />
-              </div>
-              <h1 className="text-2xl p-1">Ruqayya</h1>
-              <p className="p-2">bc210406706</p>
-              <p>bc210406706@vu.edu.com</p>
-            </div>
+    <div className="bg-gray-100 min-h-screen">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-blue-900 text-2xl text-center py-6">
+          Student Profile
+        </h1>
+        <div className="flex text-center gap-8">
+          <div className="flex flex-col items-center bg-white w-1/3 py-8 shadow-sm">
+            <Image
+              src="/landing-page.avif"
+              alt="Profile Image"
+              width={100}
+              height={100}
+              className="rounded-full w-32 h-32 border"
+            />
 
-            {/* right div */}
-            <div className="bg-white w-2/3 h-auto shadow-sm">
-              <h1 className="text-2xl bg-gray-200">Personal Information</h1>
-              <div className="flex justify-evenly">
-                <div className="flex flex-col">
-                  <span className="p-12">Name</span>
-                  <span className="p-12">CNIC</span>
-                  <span className="p-12">Birth Date</span>
-                  <span className="p-12">Address</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="p-12">Ruqayya</span>
-                  <span className="p-12">6767-6767-76</span>
-                  <span className="p-12">3/5/2003</span>
-                  <span className="p-12">City Name</span>
-                </div>
-              </div>
+            <h1 className="text-2xl p-1">{profile?.name}</h1>
+            <p>{profile?.email}</p>
+          </div>
+
+          <div className="bg-white w-2/3 p-6 shadow-sm">
+            <h2 className="text-2xl bg-gray-200 p-4">Personal Information</h2>
+            <div className="p-4">
+              <p>Introduction: {profile?.introduction || "null"}</p>
+              <p>Education: {profile?.education || "null"}</p>
+              <p>
+                Achievements:{" "}
+                {profile?.achievements?.length
+                  ? profile.achievements.join(", ")
+                  : "None"}
+              </p>
+              <p>Role: {profile?.role}</p>
+              <p>Created At: {profile?.created_at || "null"}</p>
+              <p>Updated At: {profile?.updated_at || "null"}</p>
             </div>
           </div>
         </div>
+
         <div>
           <h1 className="text-blue-900 text-2xl pt-12">Enrolled Courses</h1>
-          <div className="grid grid-cols-3 py-12 gap-4">
-            {courses.map((course) => (
+          <div className="grid grid-cols-3 py-12 gap-6">
+            {[
+              {
+                id: 1,
+                rating: 4.8,
+                totalReviews: 150,
+                thumbnail: "https://picsum.photos/400/300?random=1",
+                image: "https://picsum.photos/400/300?random=11",
+                name: "Introduction to Software Engineering",
+                price: 99,
+                description: "Learn the basics of software engineering.",
+              },
+              {
+                id: 4,
+                rating: 4.6,
+                totalReviews: 180,
+                thumbnail: "https://picsum.photos/400/300?random=4",
+                image: "https://picsum.photos/400/300?random=14",
+                name: "Data Structures & Algorithms",
+                price: 129,
+                description: "Solve coding problems efficiently with DSA.",
+              },
+              {
+                id: 5,
+                rating: 4.5,
+                totalReviews: 220,
+                thumbnail: "https://picsum.photos/400/300?random=5",
+                image: "https://picsum.photos/400/300?random=15",
+                name: "Artificial Intelligence Basics",
+                price: 179,
+                description: "Understand AI fundamentals and machine learning.",
+              },
+              {
+                id: 6,
+                rating: 4.8,
+                totalReviews: 275,
+                thumbnail: "https://picsum.photos/400/300?random=6",
+                image: "https://picsum.photos/400/300?random=16",
+                name: "Cybersecurity Fundamentals",
+                price: 159,
+                description: "Learn how to secure networks from cyber threats.",
+              },
+            ].map((course) => (
               <CourseCard
                 key={course.id}
                 rating={course.rating}
@@ -127,4 +172,5 @@ function StudentProfile() {
     </div>
   );
 }
+
 export default StudentProfile;
