@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { VscMortarBoard } from "react-icons/vsc";
 import { MdOutlineLibraryBooks } from "react-icons/md";
 import { GoTrophy } from "react-icons/go";
@@ -9,9 +9,25 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
 import { RoleType } from "@/types/user";
 import Image from "next/image";
+import axios from "axios";
+
+interface instructorData {
+  id: string;
+  name: string;
+  email: string;
+  introduction: string;
+  education: string;
+  achievements: string[];
+  role: string;
+  created_at: string;
+  updated_at: string;
+}
 
 function InstructorProfile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+const [profile, setProfile] = useState<instructorData | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const courses = [
     {
@@ -61,23 +77,61 @@ function InstructorProfile() {
   ];
 
   const router = useRouter();
-
   const { user } = useAuth();
 
-  if (!user || user?.role !== RoleType.INSTRUCTOR) {
-    router.push("/login");
-    return;
+  useEffect(() => {
+    if (!user || user.role !== "INSTRUCTOR") {
+      router.push("/login");
+      return;
+    }
+
+    const fetchProfile = async () => {
+      if (!user?.access_token) {
+        console.error("Access token is missing!");
+        return;
+      }
+
+      try {
+        console.log("Fetching profile data with token:", user.access_token);
+
+        const response = await axios.get<instructorData>(
+          `${process.env.NEXT_PUBLIC_API_URL}/users/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.access_token}`,
+            },
+          }
+        );
+
+        console.log("Profile Data:", response.data);
+        setProfile(response.data);
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+          console.error("Axios Error:", error.response?.data || error.message);
+          setError(error.response?.data?.message || "Failed to fetch profile.");
+        } else {
+          console.error("Unexpected Error:", error);
+          setError("An unexpected error occurred.");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [user, router]);
+
+  if (!user || user.role !== "INSTRUCTOR") {
+    return null;
   }
+
 
   return (
     <div className="bg-gray-100">
       <div className="mx-35">
         <h1 className="text-blue-900 text-2xl py-8">Instructor Profile</h1>
         <p className="text-gray-600">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro libero
-          quasi, aperiam fugiat dolore at laudantium est dignissimos voluptatum,
-          quas, officiis nostrum nam maxime iste consequatur! Ipsam laudantium
-          optio impedit.
+        {profile?.introduction}
         </p>
         <div className="flex justify-evenly">
           <div className="bg-blue-600 w-352 h-25 my-12">
@@ -92,8 +146,8 @@ function InstructorProfile() {
         </div>
         <div className="flex justify-between text-gray-600 px-40">
           <div>
-            <h1 className="font-bold text-lg">Liam Johnson</h1>
-            <p>Instructor</p>
+            <h1 className="font-bold text-lg">{profile?.name}</h1>
+            <p>{profile?.role && profile.role.toLowerCase()}</p>
             <div className="flex items-center gap-2 pt-4">
               <MdOutlineLibraryBooks />
               <span>1 Courses Offered</span>
@@ -107,10 +161,7 @@ function InstructorProfile() {
           <div className="w-2/3 space-y-4">
             <h1 className="font-bold text-lg">Introduction</h1>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam
-              veritatis sapiente ex amet odio cumque voluptatum accusantium
-              deserunt, blanditiis dolorem saepe doloribus aspernatur officiis
-              quasi magnam asperiores praesentium illo fugit?
+            {profile?.introduction}
             </p>
             <div className="flex gap-4">
               <Image
@@ -124,11 +175,7 @@ function InstructorProfile() {
                 <h1 className="font-bold text-lg">Education</h1>
                 <div className="flex items-center gap-2 pt-4">
                   <VscMortarBoard />
-                  <span>Master in Computer Science</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <VscMortarBoard />
-                  <span>PhD in Computer Science and Engineering</span>
+                  <span>{profile?.education}</span>
                 </div>
               </div>
             </div>
@@ -144,15 +191,7 @@ function InstructorProfile() {
                 <h1 className="font-bold text-lg">Achievements</h1>
                 <div className="flex items-center gap-2 pt-4">
                   <GoTrophy />
-                  <span>Microsoft Certified Solution Developer</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <GoTrophy />
-                  <span>Assisted Faculty at Oakridge University</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <GoTrophy />
-                  <span>Guest Lecturer at Stanford University</span>
+                  <span>{profile?.achievements}</span>
                 </div>
               </div>
             </div>
