@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -81,11 +82,11 @@ function StudentProfile() {
         <div className="flex text-center gap-8">
           <div className="flex flex-col items-center bg-white w-1/3 py-8 shadow-sm">
             <Image
-              src="/landing-page.avif"
+              src="/landing-page-bg.jpg"
               alt="Profile Image"
               width={100}
               height={100}
-              className="rounded-full w-32 h-32 border"
+              className="rounded-full w-32 h-32"
             />
 
             <h1 className="text-2xl p-1">{profile?.name}</h1>
