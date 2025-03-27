@@ -136,7 +136,7 @@ const [profile, setProfile] = useState<instructorData | null>(null);
         <div className="flex justify-evenly">
           <div className="bg-blue-600 w-352 h-25 my-12">
             <Image
-              src="/landing-page.avif"
+              src="/landing-page-bg.jpg"
               alt="admin-pic"
               width={100}
               height={100}
