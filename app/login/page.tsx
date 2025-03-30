@@ -38,7 +38,10 @@ function Login() {
         LoginData
       );
       const { access_token, role } = response.data;
-      login({ email: LoginData.email, role , access_token });
+      login({
+        email: LoginData.email, role, access_token,
+        id: undefined
+      });
       toast.success("Successfully Logged In");
 
       if (role === RoleType.STUDENT) {

@@ -23,61 +23,65 @@ interface instructorData {
   updated_at: string;
 }
 
+export interface uploadCoursesData {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  videoPath: string;
+}
+
 function InstructorProfile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-const [profile, setProfile] = useState<instructorData | null>(null);
+  const [profile, setProfile] = useState<instructorData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
-  const courses = [
-    {
-      id: 1,
-      rating: 4.8,
-      totalReviews: 150,
-      thumbnail: "https://picsum.photos/400/300?random=1",
-      image: "https://picsum.photos/400/300?random=11",
-      name: "Introduction to Software Engineering",
-      price: 99,
-      description:
-        "Learn the basics of software engineering, including software development lifecycle, design patterns, and best practices.",
-    },
-    {
-      id: 2,
-      rating: 4.7,
-      totalReviews: 200,
-      thumbnail: "https://picsum.photos/400/300?random=2",
-      image: "https://picsum.photos/400/300?random=12",
-      name: "Full Stack Web Development",
-      price: 149,
-      description:
-        "Master both frontend and backend development with hands-on projects using HTML, CSS, JavaScript, Node.js, and more.",
-    },
-    {
-      id: 3,
-      rating: 4.9,
-      totalReviews: 320,
-      thumbnail: "https://picsum.photos/400/300?random=3",
-      image: "https://picsum.photos/400/300?random=13",
-      name: "Mastering Java Programming",
-      price: 199,
-      description:
-        "A complete guide to building scalable and maintainable software using Java, covering OOP, multithreading, and more.",
-    },
-    {
-      id: 4,
-      rating: 4.6,
-      totalReviews: 180,
-      thumbnail: "https://picsum.photos/400/300?random=4",
-      image: "https://picsum.photos/400/300?random=14",
-      name: "Data Structures & Algorithms for Software Engineers",
-      price: 129,
-      description:
-        "Learn how to solve complex coding problems and optimize your software with efficient algorithms and data structures.",
-    },
-  ];
+  const [uploadCourses, setUploadCourses] = useState<uploadCoursesData[]>([]);
 
   const router = useRouter();
   const { user } = useAuth();
+
+  const fetchProfile = async () => {
+    if (!user?.access_token) {
+      console.error("Access token is missing!");
+      return;
+    }
+
+    try {
+      const response = await axios.get<instructorData>(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.access_token}`,
+          },
+        }
+      );
+      setProfile(response.data);
+    } catch (error) {
+      setError("Failed to fetch profile.");
+    }
+  };
+
+  const fetchCourses = async () => {
+    if (!user?.access_token) {
+      console.error("Access token is missing!");
+      return;
+    }
+
+    try {
+      const response = await axios.get<uploadCoursesData[]>(
+        `${process.env.NEXT_PUBLIC_API_URL}/courses/uploadedByMe`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.access_token}`,
+          },
+        }
+      );
+      setUploadCourses(response.data);
+    } catch (error) {
+      setError("Failed to fetch uploaded courses.");
+    }
+  };
 
   useEffect(() => {
     if (!user || user.role !== "INSTRUCTOR") {
@@ -85,54 +89,21 @@ const [profile, setProfile] = useState<instructorData | null>(null);
       return;
     }
 
-    const fetchProfile = async () => {
-      if (!user?.access_token) {
-        console.error("Access token is missing!");
-        return;
-      }
-
-      try {
-        console.log("Fetching profile data with token:", user.access_token);
-
-        const response = await axios.get<instructorData>(
-          `${process.env.NEXT_PUBLIC_API_URL}/users/me`,
-          {
-            headers: {
-              Authorization: `Bearer ${user.access_token}`,
-            },
-          }
-        );
-
-        console.log("Profile Data:", response.data);
-        setProfile(response.data);
-      } catch (error: unknown) {
-        if (axios.isAxiosError(error)) {
-          console.error("Axios Error:", error.response?.data || error.message);
-          setError(error.response?.data?.message || "Failed to fetch profile.");
-        } else {
-          console.error("Unexpected Error:", error);
-          setError("An unexpected error occurred.");
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
+    console.log("Fetching instructor data...");
 
     fetchProfile();
+    fetchCourses();
   }, [user, router]);
 
   if (!user || user.role !== "INSTRUCTOR") {
     return null;
   }
 
-
   return (
     <div className="bg-gray-100">
       <div className="mx-35">
         <h1 className="text-blue-900 text-2xl py-8">Instructor Profile</h1>
-        <p className="text-gray-600">
-        {profile?.introduction}
-        </p>
+        <p className="text-gray-600">{profile?.introduction}</p>
         <div className="flex justify-evenly">
           <div className="bg-blue-600 w-352 h-25 my-12">
             <Image
@@ -160,9 +131,7 @@ const [profile, setProfile] = useState<instructorData | null>(null);
 
           <div className="w-2/3 space-y-4">
             <h1 className="font-bold text-lg">Introduction</h1>
-            <p>
-            {profile?.introduction}
-            </p>
+            <p>{profile?.introduction}</p>
             <div className="flex gap-4">
               <Image
                 src="/academic.jpeg"
@@ -205,22 +174,24 @@ const [profile, setProfile] = useState<instructorData | null>(null);
           </button>
         </div>
         <div className="grid grid-cols-3 pb-8 gap-4">
-          {courses.map((course) => (
+          {uploadCourses.map((course) => (
             <CourseCard
               key={course.id}
-              rating={course.rating}
-              totalReviews={course.totalReviews}
-              thumbnail={course.thumbnail}
-              image={course.image}
-              name={course.name}
+              rating={4.5} // Default value if rating is not provided in API
+              totalReviews={100} // Default reviews
+              thumbnail="https://picsum.photos/400/300" // Default image
+              image="https://picsum.photos/400/300"
+              name={course.title}
               price={course.price}
-              description={course.description}
+              description={course.description} // Typo fix: should be `description`
             />
           ))}
         </div>
         {isModalOpen && (
           <Modal
             isOpen={isModalOpen}
+            uploadCourses={uploadCourses}
+            setUploadCourses={setUploadCourses}
             handleClose={() => setIsModalOpen(false)}
           />
         )}

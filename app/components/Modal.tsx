@@ -1,9 +1,10 @@
-import React, { FormEvent, useEffect, useState } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import { useAuth } from '../context/AuthContext';
+import React, { FormEvent, useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
+import { uploadCoursesData } from "../instructorprofile/page";
 
 interface CourseData {
   title: string;
@@ -14,14 +15,16 @@ interface CourseData {
 interface ModalProps {
   isOpen: boolean;
   handleClose: () => void;
+  uploadCourses: any;
+  setUploadCourses: any;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, handleClose }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, uploadCourses, setUploadCourses }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const [courseData, setCourseData] = useState<CourseData>({
-    title: '',
-    description: '',
+    title: "",
+    description: "",
     price: 0,
   });
   const router = useRouter();
@@ -29,18 +32,18 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose }) => {
 
   useEffect(() => {
     const closeOnEscapeKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
+      if (e.key === "Escape" && isOpen) {
         handleClose();
       }
     };
-    document.body.addEventListener('keydown', closeOnEscapeKey);
+    document.body.addEventListener("keydown", closeOnEscapeKey);
     return () => {
-      document.body.removeEventListener('keydown', closeOnEscapeKey);
+      document.body.removeEventListener("keydown", closeOnEscapeKey);
     };
   }, [handleClose, isOpen]);
 
   useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : 'unset';
+    document.body.style.overflow = isOpen ? "hidden" : "unset";
   }, [isOpen]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +52,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose }) => {
   };
 
   const handleSelectFile = () => {
-    document.getElementById('fileInput')?.click();
+    document.getElementById("fileInput")?.click();
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -58,68 +61,127 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose }) => {
 
     try {
       const formData = new FormData();
-      
+
       if (selectedFile) {
-        formData.append('video', selectedFile); 
+        formData.append("video", selectedFile);
       } else {
         toast.error("Please select a video file.");
         return;
       }
-  
-      formData.append('title', courseData.title);
-      formData.append('description', courseData.description);
-      formData.append('price', courseData.price.toString()); 
-  
+
+      formData.append("title", courseData.title);
+      formData.append("description", courseData.description);
+      formData.append("price", courseData.price.toString());
+
       console.log("FormData:", Object.fromEntries(formData.entries())); // Debugging
-  
+
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/courses/upload`,
+        `${process.env.NEXT_PUBLIC_API_URL}/courses`,
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${user?.access_token}`,
           },
-          withCredentials: true, 
+          withCredentials: true,
         }
       );
-  
-      toast.success('Course uploaded successfully!');
-      console.log('Course uploaded:', response.data);
+
+      setUploadCourses([...uploadCourses, response.data])
+
+      toast.success("Course uploaded successfully!");
+      console.log("Course uploaded:", response.data);
+      handleClose();
     } catch (error) {
       console.error("Upload failed:", error);
-      toast.error('Course uploading failed. Please try again.');
+      toast.error("Course uploading failed. Please try again.");
     } finally {
       setUploading(false);
     }
   };
-  
-  
 
   if (!isOpen) return null;
 
   return (
-    <div className='fixed inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.5)]'>
-      <div className='bg-white w-2/5 max-w-lg p-6 rounded-xl shadow-2xl relative'>
+    <div className="fixed inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.5)]">
+      <div className="bg-white w-2/5 max-w-lg p-6 rounded-xl shadow-2xl relative">
         <form onSubmit={handleSubmit}>
-          <button type='button' className='absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl' onClick={handleClose}>✖</button>
-          <h1 className='text-blue-900 text-2xl font-semibold mb-4 text-center'>Upload Video</h1>
-          <hr className='border-gray-300 mb-4' />
+          <button
+            type="button"
+            className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl"
+            onClick={handleClose}
+          >
+            ✖
+          </button>
+          <h1 className="text-blue-900 text-2xl font-semibold mb-4 text-center">
+            Upload Video
+          </h1>
+          <hr className="border-gray-300 mb-4" />
 
-          <input type='text' placeholder='Enter course title' value={courseData.title} onChange={(e) => setCourseData({ ...courseData, title: e.target.value })} className='border border-gray-300 rounded-lg p-3 w-full mb-4' />
+          <input
+            type="text"
+            placeholder="Enter course title"
+            value={courseData.title}
+            onChange={(e) =>
+              setCourseData({ ...courseData, title: e.target.value })
+            }
+            className="border border-gray-300 rounded-lg p-3 w-full mb-4"
+          />
 
-          <textarea placeholder='Enter course description' value={courseData.description} onChange={(e) => setCourseData({ ...courseData, description: e.target.value })} className='border border-gray-300 rounded-lg p-3 w-full h-24 mb-4' />
+          <textarea
+            placeholder="Enter course description"
+            value={courseData.description}
+            onChange={(e) =>
+              setCourseData({ ...courseData, description: e.target.value })
+            }
+            className="border border-gray-300 rounded-lg p-3 w-full h-24 mb-4"
+          />
 
-          <input type='number' min={0} placeholder='Enter course price in dollars' value={courseData.price} onChange={(e) => setCourseData({ ...courseData, price: Number(e.target.value) })} className='border border-gray-300 rounded-lg p-3 w-full mb-4' />
+          <input
+            type="number"
+            min={0}
+            placeholder="Enter course price in dollars"
+            value={courseData.price}
+            onChange={(e) =>
+              setCourseData({ ...courseData, price: Number(e.target.value) })
+            }
+            className="border border-gray-300 rounded-lg p-3 w-full mb-4"
+          />
 
-          <div className='flex flex-col items-center text-center text-gray-600'>
-            <Image src='/upload.png' alt='upload' width={24} height={24} className='w-24 h-24 mt-2' />
-            <h1 className='font-bold text-lg mt-2'>Drag & Drop to Upload</h1>
-            <p className='text-sm mb-3'>Your videos remain private until published</p>
-            <input type='file' id='fileInput' className='hidden' accept='video/*' onChange={handleFileChange} />
-            {selectedFile && <p className='text-sm text-green-600 mt-2'>Selected File: {selectedFile.name}</p>}
-            <button type='button' className='hover:bg-blue-700 secondary mb-4' onClick={handleSelectFile}>Select File</button>
-            <button type='submit' className='primary w-full'>{uploading ? 'Uploading...' : 'Submit'}</button>
+          <div className="flex flex-col items-center text-center text-gray-600">
+            <Image
+              src="/upload.png"
+              alt="upload"
+              width={24}
+              height={24}
+              className="w-24 h-24 mt-2"
+            />
+            <h1 className="font-bold text-lg mt-2">Drag & Drop to Upload</h1>
+            <p className="text-sm mb-3">
+              Your videos remain private until published
+            </p>
+            <input
+              type="file"
+              id="fileInput"
+              className="hidden"
+              accept="video/*"
+              onChange={handleFileChange}
+            />
+            {selectedFile && (
+              <p className="text-sm text-green-600 mt-2">
+                Selected File: {selectedFile.name}
+              </p>
+            )}
+            <button
+              type="button"
+              className="hover:bg-blue-700 secondary mb-4"
+              onClick={handleSelectFile}
+            >
+              Select File
+            </button>
+            <button type="submit" className="primary w-full">
+              {uploading ? "Uploading..." : "Submit"}
+            </button>
           </div>
         </form>
       </div>
