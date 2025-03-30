@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { FaPlay } from "react-icons/fa";
 
 interface CourseCardProps {
   rating: number;
@@ -22,7 +23,19 @@ export default function CourseCard({
 }: CourseCardProps) {
   return (
     <div className="card">
-      <Image src={thumbnail} alt="landscape image" width={100} height={100} />
+      <div className="relative group cursor-pointer">
+        <Image
+          src={thumbnail}
+          alt="landscape image"
+          width={100}
+          height={100}
+          className="transition duration-200 group-hover:blur-xs"
+        />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-300">
+          <FaPlay className="text-white text-2xl" />
+        </div>
+      </div>
+
       <div className="flex flex-col gap-1 p-2">
         <p>
           ⭐{rating}({totalReviews})
