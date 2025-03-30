@@ -4,6 +4,7 @@ export enum RoleType {
 }
 
 export interface User {
+  id: any;
   email: string;
   role: RoleType;
   access_token: string;

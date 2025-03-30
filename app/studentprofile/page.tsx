@@ -75,7 +75,7 @@ function StudentProfile() {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-35">
         <h1 className="text-blue-900 text-2xl text-center py-6">
           Student Profile
         </h1>
@@ -112,8 +112,8 @@ function StudentProfile() {
         </div>
 
         <div>
-          <h1 className="text-blue-900 text-2xl pt-12 pb-8">Enrolled Courses</h1>
-          <div className="grid grid-cols-3 py-12 gap-6">
+          <h1 className="text-blue-900 text-2xl pt-12">Enrolled Courses</h1>
+          <div className="grid grid-cols-3 py-10 gap-6">
             {[
               {
                 id: 1,
