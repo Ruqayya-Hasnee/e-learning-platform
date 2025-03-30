@@ -11,6 +11,7 @@ import { RoleType } from "@/types/user";
 import Image from "next/image";
 import axios from "axios";
 
+
 interface instructorData {
   id: string;
   name: string;
@@ -183,7 +184,8 @@ function InstructorProfile() {
               image="https://picsum.photos/400/300"
               name={course.title}
               price={course.price}
-              description={course.description} // Typo fix: should be `description`
+              description={course.description}
+              videoPath={course.videoPath} // Dynamic video path from DB
             />
           ))}
         </div>
