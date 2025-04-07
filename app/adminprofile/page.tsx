@@ -146,8 +146,7 @@ function AdminProfile() {
               image={course.image}
               name={course.name}
               price={course.price}
-              description={course.description}
-            />
+              description={course.description} videoPath={""}            />
           ))}
         </div>
       </div>

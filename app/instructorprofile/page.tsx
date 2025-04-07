@@ -7,7 +7,6 @@ import CourseCard from "@/app/components/CourseCard";
 import Modal from "@/app/components/Modal";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
-import { RoleType } from "@/types/user";
 import Image from "next/image";
 import axios from "axios";
 

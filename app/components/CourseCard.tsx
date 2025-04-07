@@ -13,8 +13,7 @@ interface CourseCardProps {
   name: string;
   price: number;
   description: string;
-  videoPath: string;  
-  
+  videoPath?: string; // Made optional
 }
 
 export default function CourseCard({
@@ -25,12 +24,12 @@ export default function CourseCard({
   name,
   price,
   description,
-  videoPath,  
+  videoPath,
 }: CourseCardProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onPlayClick = () => {
-    setIsModalOpen(true);  
+    setIsModalOpen(true);
   };
 
   return (
@@ -40,28 +39,32 @@ export default function CourseCard({
           {/* Thumbnail Image */}
           <Image
             src={thumbnail}
-            alt="landscape image"
+            alt="Course thumbnail"
             width={100}
             height={100}
             className="transition duration-200 group-hover:blur-sm"
           />
           {/* Play Button */}
-          <div
-            className="absolute inset-0 flex items-center justify-center 
+          {videoPath && (
+            <div
+              className="absolute inset-0 flex items-center justify-center 
               opacity-0 group-hover:opacity-100 transition duration-300"
-          >
-            <button
-              className="bg-opacity-50 p-3 rounded-full"
-              onClick={onPlayClick} 
             >
-              <FaPlay className="text-white text-2xl" />
-            </button>
-          </div>
+              <button
+                className="bg-opacity-50 p-3 rounded-full"
+                onClick={onPlayClick}
+              >
+                <FaPlay className="text-white text-2xl" />
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Course Info */}
         <div className="flex flex-col gap-1 p-2">
-          <p>⭐{rating} ({totalReviews})</p>
+          <p>
+            ⭐{rating} ({totalReviews})
+          </p>
           <p className="font-bold">{description}</p>
           <div className="flex justify-between items-center font-bold">
             <div className="flex items-center gap-2">
@@ -69,7 +72,7 @@ export default function CourseCard({
                 src={image}
                 width={100}
                 height={100}
-                alt="landscape image"
+                alt="Instructor image"
                 className="w-10 h-10 rounded-full"
               />
               <p>{name}</p>
@@ -80,11 +83,11 @@ export default function CourseCard({
       </div>
 
       {/* Video Modal */}
-      {isModalOpen && (
-        <VideoPlayModal 
-          videoPath={videoPath}  
-          isOpen={isModalOpen} 
-          handleClose={() => setIsModalOpen(false)} 
+      {videoPath && isModalOpen && (
+        <VideoPlayModal
+          videoPath={videoPath}
+          isOpen={isModalOpen}
+          handleClose={() => setIsModalOpen(false)}
         />
       )}
     </>
