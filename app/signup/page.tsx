@@ -44,7 +44,6 @@ function SignUp() {
 
   if (!hydrated) return null; // Prevent hydration mismatch
 
-  // Function to add achievements
   const addAchievement = () => {
     const trimmedInput = achievementInput.trim();
     if (!trimmedInput) return; // Prevent empty input
@@ -57,7 +56,6 @@ function SignUp() {
     setAchievementInput(""); // Reset input
   };
 
-  // Function to remove an achievement
   const removeAchievement = (index: number) => {
     setSignupData({
       ...signupData,
@@ -100,20 +98,16 @@ function SignUp() {
           <div className="flex justify-between mb-4 gap-2">
             <button
               type="button"
-              onClick={(e) =>
-                setSignupData({ ...signupData, role: RoleType.STUDENT})
-              }
+              onClick={() => setSignupData({ ...signupData, role: RoleType.STUDENT })}
               className={`primary w-1/2 ${
-              signupData.role === RoleType.STUDENT ? "bg-purple-600 text-white" : "bg-gray-200"
+                signupData.role === RoleType.STUDENT ? "bg-purple-600 text-white" : "bg-gray-200"
               }`}
             >
               Student
             </button>
             <button
               type="button"
-              onClick={(e) =>
-                setSignupData({ ...signupData, role: RoleType.INSTRUCTOR })
-              }
+              onClick={() => setSignupData({ ...signupData, role: RoleType.INSTRUCTOR })}
               className={`secondary w-1/2 ${
                 signupData.role === RoleType.INSTRUCTOR
                   ? "bg-purple-600 text-white"
@@ -162,10 +156,7 @@ function SignUp() {
                   name="introduction"
                   placeholder="Introduction"
                   onChange={(e) =>
-                    setSignupData({
-                      ...signupData,
-                      introduction: e.target.value,
-                    })
+                    setSignupData({ ...signupData, introduction: e.target.value })
                   }
                 />
                 <input
@@ -176,18 +167,12 @@ function SignUp() {
                     setSignupData({ ...signupData, education: e.target.value })
                   }
                 />
-
                 {/* Achievements Section */}
                 <div className="mt-4">
                   <h2 className="font-semibold">Achievements</h2>
-
-                  {/* Displaying achievements above the input */}
                   <ul>
                     {signupData.achievements.map((ach, index) => (
-                      <li
-                        key={index}
-                        className="flex justify-between p-2 border rounded mt-1"
-                      >
+                      <li key={index} className="flex justify-between p-2 border rounded mt-1">
                         {ach}
                         <button
                           type="button"
@@ -199,8 +184,6 @@ function SignUp() {
                       </li>
                     ))}
                   </ul>
-
-                  {/* Add Achievement Input below the existing achievements */}
                   <div className="flex mt-4 gap-2">
                     <input
                       type="text"
@@ -209,40 +192,26 @@ function SignUp() {
                       onChange={(e) => setAchievementInput(e.target.value)}
                       className="w-6/7"
                     />
-                    <button
-                      type="button"
-                      onClick={addAchievement}
-                      className="primary w-1/7"
-                    >
+                    <button type="button" onClick={addAchievement} className="primary w-1/7">
                       +
                     </button>
                   </div>
                 </div>
               </>
             )}
-
-            <button
-              className="primary w-full"
-              type="submit"
-              disabled={userRegistering}
-            >
-              {userRegistering
-                ? "Creating Account..."
-                : `Create ${
-                  signupData.role === RoleType.STUDENT  ? "Student" : "Instructor"
-                  } Account`}
-            </button>
-
-            {/* Link to Login */}
-            <div className="text-center mt-0.5">
-              <p>
-                Already have an account?{" "}
-                <Link href="/login" className="text-purple-600">
-                  Login here
-                </Link>
-              </p>
-            </div>
           </div>
+          <button
+            className="primary mt-4 w-full"
+            disabled={userRegistering}
+          >
+            {userRegistering ? "Signing Up..." : "Sign Up"}
+          </button>
+          <p className="mt-2 text-center">
+            Already have an account?
+            <Link href="/login" className="text-purple-600">
+              Login here
+            </Link>
+          </p>
         </form>
       </div>
     </div>

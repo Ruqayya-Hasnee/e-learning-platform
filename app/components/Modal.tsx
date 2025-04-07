@@ -4,7 +4,6 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 import { uploadCoursesData } from "../instructorprofile/page";
-
 interface CourseData {
   title: string;
   description: string;

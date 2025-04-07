@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { VscMortarBoard } from "react-icons/vsc";
 import { MdOutlineLibraryBooks } from "react-icons/md";
 import { GoTrophy } from "react-icons/go";
@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
 import Image from "next/image";
 import axios from "axios";
-
 
 interface instructorData {
   id: string;
@@ -34,18 +33,14 @@ export interface uploadCoursesData {
 function InstructorProfile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profile, setProfile] = useState<instructorData | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [uploadCourses, setUploadCourses] = useState<uploadCoursesData[]>([]);
 
   const router = useRouter();
   const { user } = useAuth();
 
-  const fetchProfile = async () => {
-    if (!user?.access_token) {
-      console.error("Access token is missing!");
-      return;
-    }
+  const fetchProfile = useCallback(async () => {
+    if (!user?.access_token) return;
 
     try {
       const response = await axios.get<instructorData>(
@@ -57,16 +52,13 @@ function InstructorProfile() {
         }
       );
       setProfile(response.data);
-    } catch (error) {
+    } catch {
       setError("Failed to fetch profile.");
     }
-  };
+  }, [user?.access_token]);
 
-  const fetchCourses = async () => {
-    if (!user?.access_token) {
-      console.error("Access token is missing!");
-      return;
-    }
+  const fetchCourses = useCallback(async () => {
+    if (!user?.access_token) return;
 
     try {
       const response = await axios.get<uploadCoursesData[]>(
@@ -78,10 +70,10 @@ function InstructorProfile() {
         }
       );
       setUploadCourses(response.data);
-    } catch (error) {
+    } catch {
       setError("Failed to fetch uploaded courses.");
     }
-  };
+  }, [user?.access_token]);
 
   useEffect(() => {
     if (!user || user.role !== "INSTRUCTOR") {
@@ -89,11 +81,9 @@ function InstructorProfile() {
       return;
     }
 
-    console.log("Fetching instructor data...");
-
     fetchProfile();
     fetchCourses();
-  }, [user, router]);
+  }, [user, router, fetchProfile, fetchCourses]);
 
   if (!user || user.role !== "INSTRUCTOR") {
     return null;
@@ -103,6 +93,11 @@ function InstructorProfile() {
     <div className="bg-gray-100">
       <div className="mx-35">
         <h1 className="text-blue-900 text-2xl py-8">Instructor Profile</h1>
+
+        {error && (
+          <div className="text-red-600 text-center mb-4">{error}</div>
+        )}
+
         <p className="text-gray-600">{profile?.introduction}</p>
         <div className="flex justify-evenly">
           <div className="bg-blue-600 w-352 h-25 my-12">
@@ -160,12 +155,13 @@ function InstructorProfile() {
                 <h1 className="font-bold text-lg">Achievements</h1>
                 <div className="flex items-center gap-2 pt-4">
                   <GoTrophy />
-                  <span>{profile?.achievements}</span>
+                  <span>{profile?.achievements.join(", ")}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
         <div className="flex justify-between py-10">
           <h1 className="text-blue-900 text-2xl">Uploaded Courses</h1>
 
@@ -173,21 +169,23 @@ function InstructorProfile() {
             Add New Course
           </button>
         </div>
+
         <div className="grid grid-cols-3 pb-8 gap-4">
           {uploadCourses.map((course) => (
             <CourseCard
               key={course.id}
-              rating={4.5} // Default value if rating is not provided in API
-              totalReviews={100} // Default reviews
-              thumbnail="https://picsum.photos/400/300" // Default image
+              rating={4.5}
+              totalReviews={100}
+              thumbnail="https://picsum.photos/400/300"
               image="https://picsum.photos/400/300"
               name={course.title}
               price={course.price}
               description={course.description}
-              videoPath={course.videoPath} // Dynamic video path from DB
+              videoPath={course.videoPath}
             />
           ))}
         </div>
+
         {isModalOpen && (
           <Modal
             isOpen={isModalOpen}

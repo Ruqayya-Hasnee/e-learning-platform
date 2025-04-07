@@ -18,9 +18,8 @@ interface LoginResponse {
 }
 
 function Login() {
-  const [userLogin, setUserLogin] = useState<boolean>(false);
-  const [error, setError] = useState("");
-  const [LoginData, setLoginData] = useState<LoginData>({
+  const [error, setError] = useState(""); // Use error for displaying login failure
+  const [loginData, setLoginData] = useState<LoginData>({
     email: "",
     password: "",
   });
@@ -30,16 +29,16 @@ function Login() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setUserLogin(true);
+    setError(""); // Clear previous errors
 
     try {
       const response = await axios.post<LoginResponse>(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-        LoginData
+        loginData
       );
       const { access_token, role } = response.data;
       login({
-        email: LoginData.email, role, access_token,
+        email: loginData.email, role, access_token,
         id: undefined
       });
       toast.success("Successfully Logged In");
@@ -56,12 +55,12 @@ function Login() {
       console.log("Login successful:", response.data);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
+        setError(error.response?.data?.message || "Something went wrong...");
         toast.error(error.response?.data?.message || "Something went wrong...");
       } else {
+        setError("Login failed. Please try again.");
         toast.error("Login failed. Please try again.");
       }
-    } finally {
-      setUserLogin(false);
     }
   };
 
@@ -76,7 +75,7 @@ function Login() {
             <input
               type="email"
               onChange={(e) =>
-                setLoginData({ ...LoginData, email: e.target.value })
+                setLoginData({ ...loginData, email: e.target.value })
               }
               placeholder="Enter your email"
               className="border p-2 rounded"
@@ -84,7 +83,7 @@ function Login() {
             <input
               type="password"
               onChange={(e) =>
-                setLoginData({ ...LoginData, password: e.target.value })
+                setLoginData({ ...loginData, password: e.target.value })
               }
               placeholder="Enter password"
               className="border p-2 rounded"
@@ -92,7 +91,7 @@ function Login() {
           </div>
           <button className="primary w-full mt-2">Login</button>
 
-          {error && <p className="text-red-500">{error}</p>}
+          {error && <p className="text-red-500">{error}</p>} {/* Show error message */}
           <div className="text-center mt-0.5">
             <p>
               Don&apos;t have an account?
