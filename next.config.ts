@@ -15,10 +15,6 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "100mb", // ✅ Increased body size limit for file uploads
     },
   },
-
-  eslint: {
-    ignoreDuringBuilds: true, // Ignores linting errors during builds
-  },
 };
 
 export default nextConfig;
