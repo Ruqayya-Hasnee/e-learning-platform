@@ -1,6 +1,5 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
@@ -14,12 +13,18 @@ interface CourseData {
 
 interface ModalProps {
   isOpen: boolean;
+  uploadCourses: uploadCoursesData[]; // Use the correct type here
+  setUploadCourses: React.Dispatch<React.SetStateAction<uploadCoursesData[]>>; // Correct type for the setter function
   handleClose: () => void;
-  uploadCourses: any;
-  setUploadCourses: any;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, uploadCourses, setUploadCourses }) => {
+
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  handleClose,
+  uploadCourses,
+  setUploadCourses,
+}) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const [courseData, setCourseData] = useState<CourseData>({
@@ -27,7 +32,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, uploadCourses, setUp
     description: "",
     price: 0,
   });
-  const router = useRouter();
+
   const { user } = useAuth();
 
   useEffect(() => {
@@ -73,8 +78,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, uploadCourses, setUp
       formData.append("description", courseData.description);
       formData.append("price", courseData.price.toString());
 
-      console.log("FormData:", Object.fromEntries(formData.entries())); // Debugging
-
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/courses`,
         formData,
@@ -87,10 +90,8 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, uploadCourses, setUp
         }
       );
 
-      setUploadCourses([...uploadCourses, response.data])
-
+      setUploadCourses([...uploadCourses, response.data]);
       toast.success("Course uploaded successfully!");
-      console.log("Course uploaded:", response.data);
       handleClose();
     } catch (error) {
       console.error("Upload failed:", error);
