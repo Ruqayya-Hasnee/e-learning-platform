@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React, { useEffect, useState, useCallback } from "react";
 import { VscMortarBoard } from "react-icons/vsc";
 import { MdOutlineLibraryBooks } from "react-icons/md";
@@ -37,7 +37,7 @@ function InstructorProfile() {
   const [uploadCourses, setUploadCourses] = useState<uploadCoursesData[]>([]);
 
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   const fetchProfile = useCallback(async () => {
     if (!user?.access_token) return;
@@ -76,6 +76,7 @@ function InstructorProfile() {
   }, [user?.access_token]);
 
   useEffect(() => {
+    if (loading) return; // Don’t proceed if still loading
     if (!user || user.role !== "INSTRUCTOR") {
       router.push("/login");
       return;
@@ -83,8 +84,14 @@ function InstructorProfile() {
 
     fetchProfile();
     fetchCourses();
-  }, [user, router, fetchProfile, fetchCourses]);
+  }, [user, router, fetchProfile, fetchCourses, loading]);
 
+  // Show loader if loading state is true
+  if (loading) {
+    return <div className="text-center py-20">Loading...</div>; 
+  }
+
+  // If the user is not authenticated or role is not instructor, redirect to login
   if (!user || user.role !== "INSTRUCTOR") {
     return null;
   }

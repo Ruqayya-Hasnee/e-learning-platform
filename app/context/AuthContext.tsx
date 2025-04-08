@@ -1,13 +1,21 @@
-"use client"; // Required for state management in Next.js App Router
+"use client";
 
 import { User } from "@/types/user";
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 // Step 1: Create Context Type
 interface AuthContextType {
   user: User | null;
+  setUser: (user: any) => void;
   login: (user: User) => void;
   logout: () => void;
+  loading: boolean;
 }
 
 // Step 2: Create Context
@@ -18,17 +26,43 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 // Step 3: Create Provider Component
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // ⬇️ On page reload, get token from localStorage
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    const role = localStorage.getItem("authRole");
+    const email = localStorage.getItem("authEmail");
+
+    if (token && role && email) {
+      setUser({
+        email,
+        access_token: token,
+        role: role as any, // cast to RoleType if needed
+        id: undefined,
+      });
+    }
+    setLoading(false); 
+  }, []);
 
   const login = (user: User) => {
+    // Save to state
     setUser(user);
+    // Also save to localStorage
+    localStorage.setItem("authToken", user.access_token);
+    localStorage.setItem("authEmail", user.email);
+    localStorage.setItem("authRole", user.role);
   };
 
   const logout = () => {
     setUser(null);
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("authEmail");
+    localStorage.removeItem("authRole");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, setUser, loading }}>
       {children}
     </AuthContext.Provider>
   );
