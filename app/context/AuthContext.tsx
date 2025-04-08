@@ -15,6 +15,7 @@ interface AuthContextType {
   setUser: (user: any) => void;
   login: (user: User) => void;
   logout: () => void;
+  loading: boolean;
 }
 
 // Step 2: Create Context
@@ -25,6 +26,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 // Step 3: Create Provider Component
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   // ⬇️ On page reload, get token from localStorage
   useEffect(() => {
@@ -40,6 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         id: undefined,
       });
     }
+    setLoading(false); 
   }, []);
 
   const login = (user: User) => {
@@ -59,7 +62,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, setUser }}>
+    <AuthContext.Provider value={{ user, login, logout, setUser, loading }}>
       {children}
     </AuthContext.Provider>
   );

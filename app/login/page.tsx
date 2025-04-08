@@ -14,11 +14,11 @@ interface LoginData {
 
 interface LoginResponse {
   access_token: string;
-  role: RoleType;
+  role: RoleType | string; // Accept both enum or string
 }
 
 function Login() {
-  const [error, setError] = useState(""); // Use error for displaying login failure
+  const [error, setError] = useState("");
   const [loginData, setLoginData] = useState<LoginData>({
     email: "",
     password: "",
@@ -26,26 +26,31 @@ function Login() {
 
   const { login } = useAuth();
   const router = useRouter();
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(""); // Clear previous errors
+    setError("");
 
     try {
       const response = await axios.post<LoginResponse>(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
         loginData
       );
+
       const { access_token, role } = response.data;
-  
-      localStorage.setItem("authToken", access_token); // ✅ Save to localStorage
-  
+
+      localStorage.setItem("authToken", access_token);
+      localStorage.setItem("authRole", role); // Save role as well
+
+      const normalizedRole = role.toString().toUpperCase();
+
       login({
         email: loginData.email,
-        role,
+        role: normalizedRole as RoleType,
         access_token,
         id: undefined,
       });
-  
+
       toast.success("Successfully Logged In");
 
       if (role === RoleType.STUDENT) {
@@ -84,6 +89,7 @@ function Login() {
               }
               placeholder="Enter your email"
               className="border p-2 rounded"
+              required
             />
             <input
               type="password"
@@ -92,14 +98,14 @@ function Login() {
               }
               placeholder="Enter password"
               className="border p-2 rounded"
+              required
             />
           </div>
-          <button className="primary w-full mt-2">Login</button>
-
-          {error && <p className="text-red-500">{error}</p>} {/* Show error message */}
-          <div className="text-center mt-0.5">
+          <button type="submit" className="primary w-full mt-2">Login</button>
+          {error && <p className="text-red-500 mt-2">{error}</p>}
+          <div className="text-center mt-1">
             <p>
-              Don&apos;t have an account?
+              Don&apos;t have an account?{" "}
               <Link href="/signup" className="text-purple-600">
                 Sign up here
               </Link>
