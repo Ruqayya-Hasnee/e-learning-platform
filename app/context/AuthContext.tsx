@@ -12,7 +12,7 @@ import {
 // Step 1: Create Context Type
 interface AuthContextType {
   user: User | null;
-  setUser: (user: any) => void;
+  setUser: (user: User | null) => void;
   login: (user: User) => void;
   logout: () => void;
   loading: boolean;
@@ -36,19 +36,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     if (token && role && email) {
       setUser({
-        email,
+        email: email,
         access_token: token,
-        role: role as any, // cast to RoleType if needed
+        role: role, // Now `role` is directly used without type casting
         id: undefined,
-      });
+      } as User); // Explicitly cast the object to `User`
     }
-    setLoading(false); 
+    setLoading(false);
   }, []);
 
   const login = (user: User) => {
-    // Save to state
     setUser(user);
-    // Also save to localStorage
     localStorage.setItem("authToken", user.access_token);
     localStorage.setItem("authEmail", user.email);
     localStorage.setItem("authRole", user.role);
