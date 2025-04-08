@@ -26,7 +26,6 @@ function Login() {
 
   const { login } = useAuth();
   const router = useRouter();
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(""); // Clear previous errors
@@ -37,10 +36,16 @@ function Login() {
         loginData
       );
       const { access_token, role } = response.data;
+  
+      localStorage.setItem("authToken", access_token); // ✅ Save to localStorage
+  
       login({
-        email: loginData.email, role, access_token,
-        id: undefined
+        email: loginData.email,
+        role,
+        access_token,
+        id: undefined,
       });
+  
       toast.success("Successfully Logged In");
 
       if (role === RoleType.STUDENT) {
