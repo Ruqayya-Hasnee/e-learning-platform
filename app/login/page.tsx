@@ -24,12 +24,17 @@ function Login() {
     password: "",
   });
 
+  // Added loading state to disable the login button during request
+  const [loading, setLoading] = useState(false);
+
   const { login } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
+
+    setLoading(true); //Set loading true on submit
 
     try {
       const response = await axios.post<LoginResponse>(
@@ -71,6 +76,8 @@ function Login() {
         setError("Login failed. Please try again.");
         toast.error("Login failed. Please try again.");
       }
+    } finally {
+      setLoading(false); // Set loading false after request finishes
     }
   };
 
@@ -101,8 +108,14 @@ function Login() {
               required
             />
           </div>
-          <button type="submit" className="primary w-full mt-2">Login</button>
+
+          {/* Disabled button when loading, text changes based on state */}
+          <button type="submit" className="primary w-full mt-2" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
+
           {error && <p className="text-red-500 mt-2">{error}</p>}
+
           <div className="text-center mt-1">
             <p>
               Don&apos;t have an account?{" "}

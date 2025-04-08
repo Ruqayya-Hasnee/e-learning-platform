@@ -6,8 +6,21 @@ import { useAuth } from "@/app/context/AuthContext";
 import { RoleType } from "@/types/user";
 
 function Navbar() {
-  const { user, logout } = useAuth();
+  const { user, logout, loading } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  if (loading) {
+    return (
+      <nav className="bg-white shadow-md">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+          {/* Loading Indicator */}
+          <div className="font-bold text-blue-900 text-lg">
+            <Link href="/">E-Learning</Link>
+          </div>
+        </div>
+      </nav>
+    );
+  }
 
   return (
     <nav className="bg-white shadow-md">
