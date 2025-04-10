@@ -17,7 +17,6 @@ interface ModalProps {
   handleClose: () => void;
 }
 
-
 const Modal: React.FC<ModalProps> = ({
   isOpen,
   handleClose,
@@ -179,7 +178,13 @@ const Modal: React.FC<ModalProps> = ({
             >
               Select File
             </button>
-            <button type="submit" className="primary w-full">
+            <button
+              type="submit"
+              className={`primary w-full ${
+                uploading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={uploading}
+            >
               {uploading ? "Uploading..." : "Submit"}
             </button>
           </div>
