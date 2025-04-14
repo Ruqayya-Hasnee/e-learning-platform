@@ -1,7 +1,9 @@
+"use client"
 import CourseCard from "@/app/components/CourseCard";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 
 interface Course {
   id: string;
@@ -16,6 +18,35 @@ interface Course {
 
 function Courses() {
   const { user, loading } = useAuth();
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchCourses = useCallback(async () => {
+    if (!user?.access_token) return;
+
+    try {
+      const response = await axios.get<Course[]>(
+        `${process.env.NEXT_PUBLIC_API_URL}/courses`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.access_token}`,
+          },
+        }
+      );
+      setCourses(response.data);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load courses.");
+    }
+  }, [user?.access_token]);
+
+  useEffect(() => {
+    if (loading) return;
+    fetchCourses();
+  }, [loading, fetchCourses]);
+
+  if (loading) return <div className="text-center py-10">Loading...</div>;
+
   return (
     <div className="bg-gray-100">
       <div className="mx-35 py-7">
