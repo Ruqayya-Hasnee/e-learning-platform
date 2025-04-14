@@ -3,15 +3,26 @@ import React from "react";
 import { CiSearch } from "react-icons/ci";
 import { useAuth } from "../context/AuthContext";
 
-function Courses() {
- 
-const { user, loading } = useAuth();
+interface Course {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  videoPath: string;
+  thumbnail?: string;
+  rating?: number;
+  totalReviews?: number;
+}
 
+function Courses() {
+  const { user, loading } = useAuth();
   return (
     <div className="bg-gray-100">
       <div className="mx-35 py-7">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl text-blue-900 font-bold">Explore Our Courses</h1>
+          <h1 className="text-2xl text-blue-900 font-bold">
+            Explore Our Courses
+          </h1>
           <div className="flex relative items-center">
             <input
               type="text"
