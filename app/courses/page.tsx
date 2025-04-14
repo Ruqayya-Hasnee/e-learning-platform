@@ -1,9 +1,9 @@
-"use client"
-import CourseCard from "@/app/components/CourseCard";
+"use client";
 import React, { useCallback, useEffect, useState } from "react";
-import { CiSearch } from "react-icons/ci";
-import { useAuth } from "../context/AuthContext";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
+import CourseCard from "@/app/components/CourseCard";
+import { CiSearch } from "react-icons/ci";
 
 interface Course {
   id: string;
@@ -17,13 +17,13 @@ interface Course {
 }
 
 function Courses() {
-  const { user, loading } = useAuth();
   const [courses, setCourses] = useState<Course[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchCourses = useCallback(async () => {
-    if (!user?.access_token) return;
+  const { user, loading } = useAuth();
 
+  const fetchAllCourses = useCallback(async () => {
+    if (!user?.access_token) return;
     try {
       const response = await axios.get<Course[]>(
         `${process.env.NEXT_PUBLIC_API_URL}/courses`,
@@ -33,17 +33,17 @@ function Courses() {
           },
         }
       );
+
       setCourses(response.data);
     } catch (err) {
-      console.error(err);
       setError("Failed to load courses.");
     }
   }, [user?.access_token]);
 
   useEffect(() => {
     if (loading) return;
-    fetchCourses();
-  }, [loading, fetchCourses]);
+    fetchAllCourses();
+  }, [loading, fetchAllCourses]);
 
   if (loading) return <div className="text-center py-10">Loading...</div>;
 
@@ -63,20 +63,21 @@ function Courses() {
             <CiSearch className="absolute right-3 p-1 text-gray-500 bg-orange-300 rounded-full h-6 w-6" />
           </div>
         </div>
-        {/* <div className="grid grid-cols-3 py-12 gap-6 ">
+        <div className="grid grid-cols-3 py-12 gap-6 ">
           {courses.map((course) => (
             <CourseCard
               key={course.id}
-              rating={course.rating}
-              totalReviews={course.totalReviews}
-              thumbnail={course.thumbnail}
-              image={course.image}
-              name={course.name}
+              rating={4.5}
+              totalReviews={100}
+              thumbnail="https://picsum.photos/400/300"
+              image="https://picsum.photos/400/300"
+              name={course.title}
               price={course.price}
               description={course.description}
+              videoPath={course.videoPath}
             />
           ))}
-        </div> */}
+        </div>
         <div className="flex justify-center">
           <button className="primary">See All Courses</button>
         </div>
