@@ -13,7 +13,8 @@ interface CourseCardProps {
   name: string;
   price: number;
   description: string;
-  videoPath?: string; // Made optional
+  videoPath?: string;
+  disablePlay?: boolean;
 }
 
 export default function CourseCard({
@@ -25,11 +26,14 @@ export default function CourseCard({
   price,
   description,
   videoPath,
+  disablePlay = false,
 }: CourseCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onPlayClick = () => {
-    setIsModalOpen(true);
+    if (!disablePlay) {
+      setIsModalOpen(true);
+    }
   };
 
   return (
@@ -42,10 +46,10 @@ export default function CourseCard({
             alt="Course thumbnail"
             width={100}
             height={100}
-            className="transition duration-200 group-hover:blur-sm"
           />
+
           {/* Play Button */}
-          {videoPath && (
+          {videoPath && !disablePlay && (
             <div
               className="absolute inset-0 flex items-center justify-center 
               opacity-0 group-hover:opacity-100 transition duration-300"

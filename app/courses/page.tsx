@@ -14,6 +14,7 @@ interface Course {
   thumbnail?: string;
   rating?: number;
   totalReviews?: number;
+  
 }
 
 function Courses() {
@@ -60,19 +61,21 @@ function Courses() {
         {error && <div className="text-red-600 text-center py-2">{error}</div>}
 
         <div className="grid grid-cols-3 py-12 gap-6">
-          {courses.map((course) => (
-            <CourseCard
-              key={course.id}
-              rating={4.5}
-              totalReviews={100}
-              thumbnail="https://picsum.photos/400/300"
-              image="https://picsum.photos/400/300"
-              name={course.title}
-              price={course.price}
-              description={course.description}
-              videoPath={course.videoPath}
-            />
-          ))}
+        {courses.map((course) => (
+  <CourseCard
+    key={course.id}
+    rating={4.5}
+    totalReviews={100}
+    thumbnail="https://picsum.photos/400/300"
+    image="https://picsum.photos/400/300"
+    name={course.title}
+    price={course.price}
+    description={course.description}
+    videoPath={course.videoPath}
+    disablePlay={true} 
+  />
+))}
+
         </div>
         <div className="flex justify-center">
           <button className="primary">See All Courses</button>
