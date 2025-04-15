@@ -57,13 +57,16 @@ function Courses() {
           <div className="flex relative items-center">
             <input
               type="text"
-              className=" bg-white outline-none rounded-full p-3 w-62 h-10"
+              className="bg-white outline-none rounded-full p-3 w-62 h-10"
               placeholder="Search Courses"
             />
             <CiSearch className="absolute right-3 p-1 text-gray-500 bg-orange-300 rounded-full h-6 w-6" />
           </div>
         </div>
-        <div className="grid grid-cols-3 py-12 gap-6 ">
+
+        {error && <div className="text-red-600 text-center py-2">{error}</div>}
+
+        <div className="grid grid-cols-3 py-12 gap-6">
           {courses.map((course) => (
             <CourseCard
               key={course.id}
