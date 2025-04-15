@@ -4,6 +4,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 import { uploadCoursesData } from "../instructorprofile/page";
+
 interface CourseData {
   title: string;
   description: string;
@@ -12,8 +13,8 @@ interface CourseData {
 
 interface ModalProps {
   isOpen: boolean;
-  uploadCourses: uploadCoursesData[]; // Use the correct type here
-  setUploadCourses: React.Dispatch<React.SetStateAction<uploadCoursesData[]>>; // Correct type for the setter function
+  uploadCourses: uploadCoursesData[];
+  setUploadCourses: React.Dispatch<React.SetStateAction<uploadCoursesData[]>>;
   handleClose: () => void;
 }
 
@@ -33,21 +34,22 @@ const Modal: React.FC<ModalProps> = ({
 
   const { user } = useAuth();
 
+  // Handle ESC key and body overflow
   useEffect(() => {
     const closeOnEscapeKey = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
         handleClose();
       }
     };
+
     document.body.addEventListener("keydown", closeOnEscapeKey);
+    document.body.style.overflow = isOpen ? "hidden" : "unset";
+
     return () => {
       document.body.removeEventListener("keydown", closeOnEscapeKey);
+      document.body.style.overflow = "unset"; // Reset overflow on unmount or modal close
     };
   }, [handleClose, isOpen]);
-
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "unset";
-  }, [isOpen]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -65,13 +67,12 @@ const Modal: React.FC<ModalProps> = ({
     try {
       const formData = new FormData();
 
-      if (selectedFile) {
-        formData.append("video", selectedFile);
-      } else {
+      if (!selectedFile) {
         toast.error("Please select a video file.");
         return;
       }
 
+      formData.append("video", selectedFile);
       formData.append("title", courseData.title);
       formData.append("description", courseData.description);
       formData.append("price", courseData.price.toString());
@@ -102,7 +103,7 @@ const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.5)]">
+    <div className="fixed inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.5)] z-50">
       <div className="bg-white w-2/5 max-w-lg p-6 rounded-xl shadow-2xl relative">
         <form onSubmit={handleSubmit}>
           <button
@@ -151,8 +152,8 @@ const Modal: React.FC<ModalProps> = ({
             <Image
               src="/upload.png"
               alt="upload"
-              width={24}
-              height={24}
+              width={96}
+              height={96}
               className="w-24 h-24 mt-2"
             />
             <h1 className="font-bold text-lg mt-2">Drag & Drop to Upload</h1>

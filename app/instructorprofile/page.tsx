@@ -123,11 +123,11 @@ function InstructorProfile() {
             <p>{profile?.role && profile.role.toLowerCase()}</p>
             <div className="flex items-center gap-2 pt-4">
               <MdOutlineLibraryBooks />
-              <span>1 Courses Offered</span>
+              <span>{uploadCourses.length} Courses Offered</span>
             </div>
             <div className="flex items-center gap-2">
               <VscMortarBoard />
-              <span>3 Enrolled Students</span>
+              <span>{profile?.email}</span> {/* Changed from placeholder to email */}
             </div>
           </div>
 
