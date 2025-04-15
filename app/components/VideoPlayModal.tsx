@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect } from "react";
 
 interface VideoPlayModalProps {
@@ -11,13 +12,10 @@ const VideoPlayModal: React.FC<VideoPlayModalProps> = ({
   handleClose,
   videoPath,
 }) => {
+ 
   useEffect(() => {
-    console.log("VideoPlayModal opened:", isOpen);
-    console.log("Video Path:", videoPath);
-
     const closeOnEscapeKey = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
-        console.log("Escape key pressed - closing modal");
         handleClose();
       }
     };
@@ -26,19 +24,26 @@ const VideoPlayModal: React.FC<VideoPlayModalProps> = ({
     return () => {
       document.body.removeEventListener("keydown", closeOnEscapeKey);
     };
-  }, [handleClose, isOpen, videoPath]);
+  }, [handleClose, isOpen]);
 
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "unset";
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
   }, [isOpen]);
 
-  // Return null if modal is not open
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.5)] z-50">
-      <div className="bg-white w-4/5 max-w-2xl h-auto p-8 rounded-xl shadow-2xl relative">
-        {/* Title and Close Button */}
+      <div className="video-modal-content bg-white w-4/5 max-w-2xl h-auto p-8 rounded-xl shadow-2xl relative overflow-y-auto max-h-[90vh]">
+        {/* Modal Header */}
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-blue-900 text-2xl font-semibold">Play Video</h1>
           <button
@@ -50,6 +55,7 @@ const VideoPlayModal: React.FC<VideoPlayModalProps> = ({
           </button>
         </div>
         <hr className="border-gray-300 mb-4" />
+
         {/* Video Player */}
         <div className="w-full flex justify-center">
           <video
