@@ -28,7 +28,7 @@ function Courses() {
         `${process.env.NEXT_PUBLIC_API_URL}/courses`
       );
       setCourses(response.data);
-    } catch (err) {
+    } catch (err: unknown) {
       console.error("Error fetching courses:", err);
       setError("Failed to load courses.");
     }
