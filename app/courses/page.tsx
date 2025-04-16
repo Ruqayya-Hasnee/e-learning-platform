@@ -19,11 +19,13 @@ interface Course {
 function Courses() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isCourseLoading, setIsCourseLoading] = useState<boolean>(false);
 
   const { loading } = useAuth();
 
   const fetchAllCourses = useCallback(async () => {
     try {
+      setIsCourseLoading(true);
       const response = await axios.get<Course[]>(
         `${process.env.NEXT_PUBLIC_API_URL}/courses`
       );
@@ -31,6 +33,8 @@ function Courses() {
     } catch (err: unknown) {
       console.error("Error fetching courses:", err);
       setError("Failed to load courses.");
+    } finally {
+      setIsCourseLoading(false);
     }
   }, []);
 
@@ -78,7 +82,9 @@ function Courses() {
         </div>
 
         <div className="flex justify-center">
-          <button className="primary">See All Courses</button>
+          <button className="primary" disabled={isCourseLoading}>
+            {isCourseLoading ? "Loading..." : "See All Courses"}
+          </button>
         </div>
       </div>
     </div>
