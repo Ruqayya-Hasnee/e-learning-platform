@@ -15,7 +15,7 @@ interface CourseCardProps {
   description: string;
   videoPath?: string;
   onEnroll?: () => void;
-  onPlayClick?: () => boolean | void;
+  onPlayClick?: () => void;  // Fixed error here
   showEnrollButton?: boolean;
   canPlayVideo?: boolean;
 }
