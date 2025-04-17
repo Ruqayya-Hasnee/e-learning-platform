@@ -1,9 +1,12 @@
 "use client";
+
 import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import CourseCard from "@/app/components/CourseCard";
 import { CiSearch } from "react-icons/ci";
+import toast from "react-hot-toast";
+import { useRouter, usePathname } from "next/navigation";
 
 interface Course {
   id: string;
@@ -20,8 +23,13 @@ function Courses() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isCourseLoading, setIsCourseLoading] = useState<boolean>(false);
+  const [showEnroll, setShowEnroll] = useState<string | null>(null);
 
-  const { loading } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+  const { loading, user } = useAuth();
+
+  const isStudent = user?.role === "STUDENT";
 
   const fetchAllCourses = useCallback(async () => {
     try {
@@ -39,11 +47,41 @@ function Courses() {
   }, []);
 
   useEffect(() => {
-    if (loading) return;
-    fetchAllCourses();
+    if (!loading) {
+      fetchAllCourses();
+    }
   }, [loading, fetchAllCourses]);
 
   if (loading) return <div className="text-center py-10">Loading...</div>;
+
+  const handleEnroll = async (courseId: string) => {
+    if (!user) {
+      router.push("/signup");
+      return;
+    }
+
+    if (!isStudent) {
+      toast.error("Only students can enroll.");
+      return;
+    }
+
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/courses/enroll`,
+        { courseId },
+        {
+          headers: {
+            Authorization: `Bearer ${user.access_token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      toast.success("Enrolled successfully!");
+      router.push("/studentprofile");
+    } catch (error) {
+      toast.error("Failed to enroll. Try again.");
+    }
+  };
 
   return (
     <div className="bg-gray-100">
@@ -76,7 +114,15 @@ function Courses() {
               price={course.price}
               description={course.description}
               videoPath={course.videoPath}
-              disablePlay={true}
+              onPlayClick={() => {
+                if (!user || !isStudent) {
+                  router.push("/signup");
+                  return;
+                }
+                setShowEnroll(course.id);
+              }}
+              onEnroll={() => handleEnroll(course.id)}
+              showEnrollButton={isStudent && showEnroll === course.id}
             />
           ))}
         </div>

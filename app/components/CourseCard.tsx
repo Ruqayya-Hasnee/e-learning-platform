@@ -14,7 +14,9 @@ interface CourseCardProps {
   price: number;
   description: string;
   videoPath?: string;
-  disablePlay?: boolean;
+  onEnroll?: () => void;
+  onPlayClick?: () => boolean | void;
+  showEnrollButton?: boolean;
 }
 
 export default function CourseCard({
@@ -26,12 +28,15 @@ export default function CourseCard({
   price,
   description,
   videoPath,
-  disablePlay = false,
+  onEnroll,
+  onPlayClick,
+  showEnrollButton = false,
 }: CourseCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const onPlayClick = () => {
-    if (!disablePlay) {
+  const handlePlay = () => {
+    const shouldShowModal = onPlayClick?.();
+    if (shouldShowModal) {
       setIsModalOpen(true);
     }
   };
@@ -39,27 +44,38 @@ export default function CourseCard({
   return (
     <>
       <div className="card">
-        <div className="relative group cursor-pointer">
+        <div
+          className={`relative group rounded-xl overflow-hidden shadow-md transition hover:shadow-lg cursor-pointer`}
+        >
           {/* Thumbnail Image */}
           <Image
             src={thumbnail}
             alt="Course thumbnail"
             width={100}
             height={100}
+            className="w-full h-[200px] object-cover"
           />
 
-          {/* Play Button */}
-          {videoPath && !disablePlay && (
+          {videoPath && (
             <div
-              className="absolute inset-0 flex items-center justify-center 
-              opacity-0 group-hover:opacity-100 transition duration-300"
+              className="absolute inset-0 flex flex-col items-center justify-center 
+              opacity-0 group-hover:opacity-100 transition duration-300 space-y-2"
             >
               <button
+                onClick={handlePlay}
                 className="bg-opacity-50 p-3 rounded-full"
-                onClick={onPlayClick}
               >
                 <FaPlay className="text-white text-2xl" />
               </button>
+
+              {showEnrollButton && onEnroll && (
+                <button
+                  onClick={onEnroll}
+                  className="bg-blue-600 text-white px-4 py-2 rounded"
+                >
+                  Enroll
+                </button>
+              )}
             </div>
           )}
         </div>
