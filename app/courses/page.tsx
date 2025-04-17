@@ -114,6 +114,7 @@ function Courses() {
               price={course.price}
               description={course.description}
               videoPath={course.videoPath}
+              canPlayVideo={false}
               onPlayClick={() => {
                 if (!user || !isStudent) {
                   router.push("/signup");

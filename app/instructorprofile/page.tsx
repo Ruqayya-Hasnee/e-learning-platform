@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState, useCallback } from "react";
 import { VscMortarBoard } from "react-icons/vsc";
 import { MdOutlineLibraryBooks } from "react-icons/md";
@@ -88,7 +88,7 @@ function InstructorProfile() {
 
   // Show loader if loading state is true
   if (loading) {
-    return <div className="text-center py-20">Loading...</div>; 
+    return <div className="text-center py-20">Loading...</div>;
   }
 
   // If the user is not authenticated or role is not instructor, redirect to login
@@ -101,9 +101,7 @@ function InstructorProfile() {
       <div className="mx-35">
         <h1 className="text-blue-900 text-2xl py-8">Instructor Profile</h1>
 
-        {error && (
-          <div className="text-red-600 text-center mb-4">{error}</div>
-        )}
+        {error && <div className="text-red-600 text-center mb-4">{error}</div>}
 
         <p className="text-gray-600">{profile?.introduction}</p>
         <div className="flex justify-evenly">
@@ -127,7 +125,8 @@ function InstructorProfile() {
             </div>
             <div className="flex items-center gap-2">
               <VscMortarBoard />
-              <span>{profile?.email}</span> {/* Changed from placeholder to email */}
+              <span>{profile?.email}</span>{" "}
+              {/* Changed from placeholder to email */}
             </div>
           </div>
 
@@ -189,6 +188,7 @@ function InstructorProfile() {
               price={course.price}
               description={course.description}
               videoPath={course.videoPath}
+              canPlayVideo={true}
             />
           ))}
         </div>

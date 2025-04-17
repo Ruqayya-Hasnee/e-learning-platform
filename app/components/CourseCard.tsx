@@ -17,6 +17,7 @@ interface CourseCardProps {
   onEnroll?: () => void;
   onPlayClick?: () => boolean | void;
   showEnrollButton?: boolean;
+  canPlayVideo?: boolean;
 }
 
 export default function CourseCard({
@@ -31,13 +32,18 @@ export default function CourseCard({
   onEnroll,
   onPlayClick,
   showEnrollButton = false,
+  canPlayVideo = false,
 }: CourseCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handlePlay = () => {
-    const shouldShowModal = onPlayClick?.();
-    if (shouldShowModal) {
+    if (canPlayVideo) {
       setIsModalOpen(true);
+    } else {
+      const shouldShowModal = onPlayClick?.();
+      if (shouldShowModal) {
+        setIsModalOpen(true);
+      }
     }
   };
 
