@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import CourseCard from "@/app/components/CourseCard";
 import { CiSearch } from "react-icons/ci";
 import toast from "react-hot-toast";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface Course {
   id: string;
@@ -21,12 +21,10 @@ interface Course {
 
 function Courses() {
   const [courses, setCourses] = useState<Course[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const [isCourseLoading, setIsCourseLoading] = useState<boolean>(false);
   const [showEnroll, setShowEnroll] = useState<string | null>(null);
 
   const router = useRouter();
-  const pathname = usePathname();
   const { loading, user } = useAuth();
 
   const isStudent = user?.role === "STUDENT";
@@ -38,9 +36,10 @@ function Courses() {
         `${process.env.NEXT_PUBLIC_API_URL}/courses`
       );
       setCourses(response.data);
-    } catch (err: unknown) {
+    } catch (err) {
+      // Handle the error silently or log it
       console.error("Error fetching courses:", err);
-      setError("Failed to load courses.");
+      toast.error("Failed to load courses.");
     } finally {
       setIsCourseLoading(false);
     }
@@ -78,7 +77,7 @@ function Courses() {
       );
       toast.success("Enrolled successfully!");
       router.push("/studentprofile");
-    } catch (error) {
+    } catch {
       toast.error("Failed to enroll. Try again.");
     }
   };
@@ -100,15 +99,13 @@ function Courses() {
           </div>
         </div>
 
-        {error && <div className="text-red-600 text-center py-2">{error}</div>}
-
         <div className="grid grid-cols-3 py-12 gap-6">
           {courses.map((course) => (
             <CourseCard
               key={course.id}
-              rating={course.rating ?? 4.5}
-              totalReviews={course.totalReviews ?? 100}
-              thumbnail={course.thumbnail ?? "https://picsum.photos/400/300"}
+              rating={4.5}
+              totalReviews={100}
+              thumbnail="https://picsum.photos/400/300"
               image="https://picsum.photos/400/300"
               name={course.title}
               price={course.price}
