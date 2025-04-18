@@ -15,7 +15,7 @@ interface CourseCardProps {
   description: string;
   videoPath?: string;
   onEnroll?: () => void;
-  onPlayClick?: () => void;  // Fixed error here
+  onPlayClick?: () => void;  
   showEnrollButton?: boolean;
   canPlayVideo?: boolean;
 }
@@ -77,7 +77,7 @@ export default function CourseCard({
               {showEnrollButton && onEnroll && (
                 <button
                   onClick={onEnroll}
-                  className="bg-blue-600 text-white px-4 py-2 rounded"
+                  className="primary"
                 >
                   Enroll
                 </button>
