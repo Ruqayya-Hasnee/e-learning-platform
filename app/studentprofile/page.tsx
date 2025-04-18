@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -8,6 +7,7 @@ import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
+// Profile data structure
 interface ProfileData {
   id: string;
   name: string;
@@ -20,10 +20,22 @@ interface ProfileData {
   updated_at: string;
 }
 
+// Course data structure
+export interface enrollCoursesData {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  videoPath: string;
+}
+
 function StudentProfile() {
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [enrolledCourses, setEnrolledCourses] = useState<enrollCoursesData[]>(
+    []
+  );
+
   const router = useRouter();
   const { user } = useAuth();
 
@@ -34,33 +46,26 @@ function StudentProfile() {
     }
 
     const fetchProfile = async () => {
-      if (!user?.access_token) {
-        console.error("Access token is missing!");
-        return;
-      }
+      if (!user?.access_token) return;
 
       try {
-        console.log("Fetching profile data with token:", user.access_token);
-
         const response = await axios.get<ProfileData>(
           `${process.env.NEXT_PUBLIC_API_URL}/users/me`,
           {
-            headers: {
-              Authorization: `Bearer ${user.access_token}`,
-            },
+            headers: { Authorization: `Bearer ${user.access_token}` },
           }
         );
-
-        console.log("Profile Data:", response.data);
         setProfile(response.data);
+
+        const coursesResponse = await axios.get<enrollCoursesData[]>(
+          `${process.env.NEXT_PUBLIC_API_URL}/courses/enrolledByMe`,
+          {
+            headers: { Authorization: `Bearer ${user.access_token}` },
+          }
+        );
+        setEnrolledCourses(coursesResponse.data);
       } catch (error: unknown) {
-        if (axios.isAxiosError(error)) {
-          console.error("Axios Error:", error.response?.data || error.message);
-          setError(error.response?.data?.message || "Failed to fetch profile.");
-        } else {
-          console.error("Unexpected Error:", error);
-          setError("An unexpected error occurred.");
-        }
+        console.error("Error fetching profile or courses", error);
       } finally {
         setLoading(false);
       }
@@ -69,8 +74,8 @@ function StudentProfile() {
     fetchProfile();
   }, [user, router]);
 
-  if (!user || user.role !== "STUDENT") {
-    return null;
+  if (!user || user.role !== "STUDENT" || loading) {
+    return <div className="text-center py-20">Loading...</div>;
   }
 
   return (
@@ -88,7 +93,6 @@ function StudentProfile() {
               height={100}
               className="rounded-full w-32 h-32"
             />
-
             <h1 className="text-2xl p-1">{profile?.name}</h1>
             <p>{profile?.email}</p>
           </div>
@@ -111,60 +115,22 @@ function StudentProfile() {
           </div>
         </div>
 
-        <div>
-          <h1 className="text-blue-900 text-2xl pt-12">Enrolled Courses</h1>
-          <div className="grid grid-cols-3 py-10 gap-6">
-            {[
-              {
-                id: 1,
-                rating: 4.8,
-                totalReviews: 150,
-                thumbnail: "https://picsum.photos/400/300?random=1",
-                image: "https://picsum.photos/400/300?random=11",
-                name: "Introduction to Software Engineering",
-                price: 99,
-                description: "Learn the basics of software engineering.",
-              },
-              {
-                id: 4,
-                rating: 4.6,
-                totalReviews: 180,
-                thumbnail: "https://picsum.photos/400/300?random=4",
-                image: "https://picsum.photos/400/300?random=14",
-                name: "Data Structures & Algorithms",
-                price: 129,
-                description: "Solve coding problems efficiently with DSA.",
-              },
-              {
-                id: 5,
-                rating: 4.5,
-                totalReviews: 220,
-                thumbnail: "https://picsum.photos/400/300?random=5",
-                image: "https://picsum.photos/400/300?random=15",
-                name: "Artificial Intelligence Basics",
-                price: 179,
-                description: "Understand AI fundamentals and machine learning.",
-              },
-              {
-                id: 6,
-                rating: 4.8,
-                totalReviews: 275,
-                thumbnail: "https://picsum.photos/400/300?random=6",
-                image: "https://picsum.photos/400/300?random=16",
-                name: "Cybersecurity Fundamentals",
-                price: 159,
-                description: "Learn how to secure networks from cyber threats.",
-              },
-            ].map((course) => (
+        <div className="py-8">
+          <h1 className="text-blue-900 text-2xl pb-4">Enrolled Courses</h1>
+          <div className="grid grid-cols-3 gap-6">
+            {enrolledCourses.map((course) => (
               <CourseCard
                 key={course.id}
-                rating={course.rating}
-                totalReviews={course.totalReviews}
-                thumbnail={course.thumbnail}
-                image={course.image}
-                name={course.name}
+                rating={4.5}
+                totalReviews={100}
+                thumbnail="https://picsum.photos/400/300"
+                image="https://picsum.photos/400/300"
+                name={course.title}
                 price={course.price}
-                description={course.description} videoPath={""}              />
+                description={course.description}
+                videoPath={course.videoPath}
+                canPlayVideo={true}
+              />
             ))}
           </div>
         </div>
